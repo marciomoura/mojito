@@ -28,6 +28,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(MOJITO_BUILD_TESTING "Build the testing tree" ON)
 option(MOJITO_BUILD_EXAMPLES "Build examples" ON)
 option(MOJITO_ENABLE_CCACHE "Enable ccache" ON)
+option(MOJITO_ENABLE_CPPCHECK "Enable static analysis with cppcheck" ON)
 
 # Check for recommended generator
 message(STATUS "Generator: ${CMAKE_GENERATOR}")
@@ -44,6 +45,11 @@ if(MOJITO_ENABLE_CCACHE)
     else()
         message(WARNING "CCache not found, proceeding without it.")
     endif()
+endif()
+
+# Static analysis with cppcheck
+if(MOJITO_ENABLE_CPPCHECK)
+    include(cppcheck)
 endif()
 
 # Testing Setup
