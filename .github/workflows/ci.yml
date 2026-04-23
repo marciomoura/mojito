@@ -24,7 +24,7 @@ jobs:
       - name: Cache APT packages
         uses: awalsh128/cache-apt-pkgs-action@v1.4.3
         with:
-          packages: cmake ninja-build clang gcc g++ ccache mold llvm
+          packages: cmake ninja-build clang gcc g++ ccache llvm
           version: 1.0
 
       - name: Setup ccache
@@ -46,6 +46,11 @@ jobs:
             echo "CC=gcc" >> $GITHUB_ENV
             echo "CXX=g++" >> $GITHUB_ENV
           fi
+
+      - name: Install mold linker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mold
 
       - name: Configure CMake project
         run: |
