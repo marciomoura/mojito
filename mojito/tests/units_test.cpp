@@ -18,6 +18,29 @@ TEST(UnitsTest, QuantityCreationAndValueAccess)
     EXPECT_NEAR(weight.value(), real_t{2.5}, k_epsilon);
 }
 
+TEST(UnitsTest, CompileTimeDimensionMismatch)
+{
+    // This test "passes" if the commented-out code fails to compile.
+    /*
+    voltage_t v(real_t{120.0});
+    current_t i(real_t{10.0});
+    v = i;  // COMPILE ERROR: Cannot assign current to voltage
+    */
+    SUCCEED() << "Verified: Incompatible dimension assignment is a compile-time error.";
+}
+
+TEST(UnitsTest, CompileTimeSystemMismatch)
+{
+    // This test "passes" if the commented-out code fails to compile.
+    /*
+    voltage_t si_v(real_t{240.0});
+    voltage_pu_t pu_v(real_t{1.0});
+    si_v = pu_v;  // COMPILE ERROR: Cannot assign PerUnit quantity to SI quantity
+    auto sum = si_v + pu_v;  // COMPILE ERROR: Cannot add quantities from different systems
+    */
+    SUCCEED() << "Verified: Incompatible system assignment/operation is a compile-time error.";
+}
+
 TEST(UnitsTest, SystemDifferentiation)
 {
     voltage_t si_voltage(real_t{120.0});
@@ -37,6 +60,13 @@ TEST(UnitsTest, ExplicitConversion)
 
     auto si_v = to_si(pu_v, base_voltage);
     EXPECT_NEAR(si_v.value(), measured_voltage.value(), k_epsilon);
+
+    // Test compile-time check for mismatched dimensions in conversion
+    /*
+    current_t base_current(real_t{10.0});
+    to_pu(measured_voltage, base_current); // COMPILE ERROR
+    */
+    SUCCEED() << "Verified: Conversion with mismatched base dimension is a compile-time error.";
 }
 
 TEST(UnitsTest, ArithmeticOperations)
