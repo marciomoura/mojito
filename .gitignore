@@ -1,70 +1,8 @@
-#==============================================================================#
-# This file specifies intentionally untracked files that git should ignore.
-# See: http://www.kernel.org/pub/software/scm/git/docs/gitignore.html
-#==============================================================================#
-
-#==============================================================================#
-# Explicit files to ignore (only matches one).
-#==============================================================================#
-_deps/
-
-# For now, ignore all files in the build directory
-simulation/scripts/library
-
-#==============================================================================#
-# Directories to ignore (do not add trailing '/'s, they skip symlinks).
-#==============================================================================#
-.vs
+# Ignore build artifacts
 build*
-*.lnk
-.local
-.cache
-flash
-__pycache__
-.ccache*
-*.bak
 
-# Ignore vendor directory (FetchContent downloads here)
-vendor/
+# gemini-cli settings
+.gemini/
 
-# Ignore STM32CubeMX-generated CMake files (we have our own main CMakeLists.txt)
-# boards/*/cmake/
-
-# Ignore STM32CubeMX-generated Drivers (fetched via CMake)
-boards/*/Drivers/
-
-# Ignore STM32CubeMX-generated Middlewares (fetched via CMake)
-boards/*/Middlewares/ST/
-
-# Keep only essential board files committed:
-# - Core/ (board-specific source/headers)
-# - *.ioc (STM32CubeMX project file)
-# - *.ld (linker scripts)
-# - CMakeLists.txt (our main board CMakeLists)
-# - USB_HOST/ (board-specific USB configuration)
-
-#=====================================================================#
-# File extensions to be ignored anywhere in the tree.
-# Placed at the end to override any previous ! patterns.
-#==============================================================================#
-build*
-*.xml
-*.pyproj
-*.sln
-*.slxc
-*.mexw64
-*.pdb
-*.~vsd
-*.cpd
-*.pyc
-/.clang-tidy
-/CPPLINT.cfg
-.vscode/c_cpp_properties.json
-.mxproject
-boards/to_compare/
-
-
-# Ignore folders containing "Target files" (Typhoon HIL generated files)
-*Target\ files*/
-
-boards/stm32f407zg-cn/legacy/
+# GitHub App credentials
+gha-creds-*.json

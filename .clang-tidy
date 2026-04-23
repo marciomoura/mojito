@@ -1,0 +1,71 @@
+# Configure which checks clang-tidy should run
+Checks: >
+  -*,
+  # Checks for bug-prone code patterns
+  bugprone-*,
+
+  # Performance optimization suggestions
+  performance-*,
+
+  # Modernization suggestions (C++11, C++14, C++17)
+  modernize-*,
+
+  # Readability improvements
+  readability-*,
+
+  # Static analyzer checks
+  clang-analyzer-*,
+
+  # C++ Core Guidelines checks
+  cppcoreguidelines-*,
+
+  # Google style checks
+  google-*,
+
+  # Miscellaneous checks
+  misc-*,
+
+  # Explicitly disabled specific checks
+  -modernize-use-trailing-return-type,          # Disable trailing return type enforcement
+  -cppcoreguidelines-avoid-magic-numbers,       # Allow magic numbers
+  -readability-magic-numbers,                   # Allow magic numbers in code
+  -cppcoreguidelines-pro-type-vararg,          # Allow variadic functions
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic  # Allow pointer arithmetic
+
+# Configure specific check options
+CheckOptions:
+  # Allow classes with all members public (like structs)
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+
+  # Configure naming conventions
+  - key: readability-identifier-naming.VariableCase
+    value: camelBack
+  - key: readability-identifier-naming.FunctionCase
+    value: camelBack
+  - key: readability-identifier-naming.ParameterCase
+    value: camelBack
+
+  # Maximum line length for readability
+  - key: readability-identifier-length.MinimumVariableNameLength
+    value: 2
+
+# Which warnings should be treated as errors
+WarningsAsErrors: ""
+
+# Use formatting defined in .clang-format file
+FormatStyle: file
+
+# Configure header filter to analyze
+HeaderFilterRegex: ".*"
+
+# Use analyze-temporary-dtors
+AnalyzeTemporaryDtors: false
+
+# System headers to ignore
+SystemHeaders: false
+
+# Don't check headers included by other headers
+HeaderFileExtensions:
+  - hpp
+  - h

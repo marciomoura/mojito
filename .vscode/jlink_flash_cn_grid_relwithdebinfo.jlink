@@ -1,0 +1,15 @@
+// JLink script to flash STM32F407ZG CN Grid-Side RelWithDebInfo build
+// Reset and halt the target
+r
+halt
+// Erase flash
+erase
+// Load the ELF file
+loadfile build-embedded-cn-grid/bin/RelWithDebInfo/yeet_embedded_app_grid.elf
+// Verify programming
+verifybin build-embedded-cn-grid/bin/RelWithDebInfo/yeet_embedded_app_grid.elf 0x08000000
+// Reset and run
+r
+go
+// Exit JLink
+qc

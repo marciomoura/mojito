@@ -1,0 +1,637 @@
+{
+    "version": "2.0.0",
+    "inputs": [
+        {
+            "id": "embeddedBoard",
+            "type": "pickString",
+            "description": "Select target board",
+            "options": [
+                "cn"
+            ],
+            "default": "cn"
+        },
+        {
+            "id": "embeddedSide",
+            "type": "pickString",
+            "description": "Select controller side",
+            "options": [
+                "grid",
+                "machine"
+            ],
+            "default": "grid"
+        },
+        {
+            "id": "buildConfiguration",
+            "type": "pickString",
+            "description": "Select build configuration",
+            "options": [
+                "debug",
+                "release",
+                "relwithdebinfo"
+            ],
+            "default": "release"
+        },
+        {
+            "id": "buildConfigurationCapitalized",
+            "type": "pickString",
+            "description": "Select build configuration (for path)",
+            "options": [
+                "Debug",
+                "Release",
+                "RelWithDebInfo"
+            ],
+            "default": "Release"
+        }
+    ],
+    "tasks": [
+        {
+            "label": "Initialize Python venv",
+            "type": "shell",
+            "command": "python -m venv ${workspaceFolder}/build/venv; ${workspaceFolder}\\build\\venv\\bin\\Activate.ps1; $env:PIP_INDEX_URL='https://pypi.org/simple'; python -m pip install -r ${workspaceFolder}\\python_requirements.txt",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run All Tests",
+            "type": "shell",
+            "command": "ctest",
+            "args": [
+                "--test-dir",
+                "build-host",
+                "--output-on-failure",
+                "--verbose"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Runs all tests using CTest"
+        },
+        {
+            "label": "Run SFC Tests Only",
+            "type": "shell",
+            "command": "ctest",
+            "args": [
+                "--test-dir",
+                "build-host",
+                "--output-on-failure",
+                "-R",
+                "sfc"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Runs only SFC-related tests using CTest"
+        },
+        {
+            "label": "Clean Build",
+            "type": "shell",
+            "command": "ninja",
+            "args": [
+                "-C",
+                "build-host",
+                "clean"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Cleans the build directory"
+        },
+        {
+            "label": "Full Build (All Targets)",
+            "type": "shell",
+            "command": "ninja",
+            "args": [
+                "-C",
+                "build-host"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Builds all targets in the project"
+        },
+        {
+            "label": "Build SFC Host Simulator",
+            "type": "shell",
+            "command": "ninja",
+            "args": [
+                "-C",
+                "build-host",
+                "sfc_host_simulator"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Builds the dual-controller host simulator"
+        },
+        {
+            "label": "Run SFC Host Simulator (Grid: 7000, Machine: 7001)",
+            "type": "shell",
+            "command": "${workspaceFolder}/build-host/bin/Debug/sfc_host_simulator.exe",
+            "args": [
+                "--grid-port",
+                "7000",
+                "--machine-port",
+                "7001",
+                "--frequency",
+                "100",
+                "--verbose"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Runs the dual-controller host simulator with verbose logging",
+            "isBackground": false
+        },
+        {
+            "label": "Yeet clean plots",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Remove-Item -Path '${workspaceFolder}/build-host/bin/${input:buildConfiguration}/*.json' -Force"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Cleans the plots of the build directory"
+        },
+        {
+            "label": "Yeet plotting (dec=10)",
+            "type": "shell",
+            "command": "python.exe",
+            "args": [
+                "${workspaceFolder}/software/yeet/tools/plot_sampler_data.py",
+                "${workspaceFolder}/build-host/bin/${input:buildConfiguration}/",
+                "${workspaceFolder}/build-host/bin/${input:buildConfiguration}/",
+                "--move=${workspaceFolder}/build-host/bin/${input:buildConfiguration}/testing_outputs/",
+                "--decimate=10"
+            ],
+            "problemMatcher": [],
+            "detail": "Runs the Python script after the executable"
+        },
+        {
+            "label": "Yeet plotting (dec=1)",
+            "type": "shell",
+            "command": "python.exe",
+            "args": [
+                "${workspaceFolder}/software/yeet/tools/plot_sampler_data.py",
+                "${workspaceFolder}/build-host/bin/${input:buildConfiguration}/",
+                "${workspaceFolder}/build-host/bin/${input:buildConfiguration}/",
+                "--move=${workspaceFolder}/build-host/bin/${input:buildConfiguration}/testing_outputs/",
+                "--decimate=1"
+            ],
+            "problemMatcher": [],
+            "detail": "Runs the Python script after the executable"
+        },
+        {
+            "label": "Configure Embedded Target",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--preset=embedded-${input:embeddedBoard}-${input:embeddedSide}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Configure CMake for selected embedded target (board + side)"
+        },
+        {
+            "label": "Build Embedded Target",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset=embedded-${input:embeddedBoard}-${input:embeddedSide}-${input:buildConfiguration}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Build selected embedded target with chosen configuration"
+        },
+        {
+            "label": "Flash Embedded Target",
+            "type": "shell",
+            "command": "C:/ST/STM32CubeCLT_1.19.0/STM32CubeProgrammer/bin/STM32_Programmer_CLI.exe",
+            "args": [
+                "-c",
+                "port=SWD",
+                "-w",
+                "${workspaceFolder}/build-embedded-${input:embeddedBoard}-${input:embeddedSide}/bin/${input:buildConfigurationCapitalized}/yeet_embedded_app_${input:embeddedSide}.elf",
+                "-v",
+                "-rst"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Flash selected embedded target to STM32 via ST-Link"
+        },
+        {
+            "label": "Flash CN Grid (JLink) - RelWithDebInfo",
+            "type": "shell",
+            "command": "C:/DevEnv/SEGGER/JLink_V876/JLink.exe",
+            "args": [
+                "-device",
+                "STM32F407ZG",
+                "-if",
+                "SWD",
+                "-speed",
+                "4000",
+                "-autoconnect",
+                "1",
+                "-CommandFile",
+                "${workspaceFolder}/.vscode/jlink_flash_cn_grid_relwithdebinfo.jlink"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Flash CN Grid-Side RelWithDebInfo build via JLink"
+        },
+        {
+            "label": "Flash CN Grid (JLink) - Release",
+            "type": "shell",
+            "command": "C:/DevEnv/SEGGER/JLink_V876/JLink.exe",
+            "args": [
+                "-device",
+                "STM32F407ZG",
+                "-if",
+                "SWD",
+                "-speed",
+                "4000",
+                "-autoconnect",
+                "1",
+                "-CommandFile",
+                "${workspaceFolder}/.vscode/jlink_flash_cn_grid_release.jlink"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Flash CN Grid-Side Release build via JLink"
+        },
+        {
+            "label": "Flash CN Machine (JLink) - RelWithDebInfo",
+            "type": "shell",
+            "command": "C:/DevEnv/SEGGER/JLink_V876/JLink.exe",
+            "args": [
+                "-device",
+                "STM32F407ZG",
+                "-if",
+                "SWD",
+                "-speed",
+                "4000",
+                "-autoconnect",
+                "1",
+                "-CommandFile",
+                "${workspaceFolder}/.vscode/jlink_flash_cn_machine_relwithdebinfo.jlink"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Flash CN Machine-Side RelWithDebInfo build via JLink"
+        },
+        {
+            "label": "Flash CN Machine (JLink) - Release",
+            "type": "shell",
+            "command": "C:/DevEnv/SEGGER/JLink_V876/JLink.exe",
+            "args": [
+                "-device",
+                "STM32F407ZG",
+                "-if",
+                "SWD",
+                "-speed",
+                "4000",
+                "-autoconnect",
+                "1",
+                "-CommandFile",
+                "${workspaceFolder}/.vscode/jlink_flash_cn_machine_release.jlink"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Flash CN Machine-Side Release build via JLink"
+        },
+        {
+            "label": "Build & Flash Embedded Target",
+            "dependsOn": [
+                "Configure Embedded Target",
+                "Build Embedded Target",
+                "Flash Embedded Target"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Complete workflow: Configure, build, and flash selected embedded target"
+        },
+        {
+            "label": "Launch SFC Simulator",
+            "type": "shell",
+            "command": "${workspaceFolder}/build-host/bin/${input:buildConfigurationCapitalized}/sfc_host_simulator.exe",
+            "args": [
+                "--grid-port",
+                "7000",
+                "--machine-port",
+                "7001",
+                "--frequency",
+                "20000",
+                "--verbose"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "detail": "Launches SFC host simulator (as fast as possible, 50µs telemetry)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Launch Grid-Side Monitor",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "monitor.py",
+                "--host",
+                "localhost",
+                "--port",
+                "7000",
+                "--decimate",
+                "1",
+                "--target",
+                "grid"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/software/yeet/tools"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "detail": "Launches grid-side telemetry monitor",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Launch Machine-Side Monitor",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "monitor.py",
+                "--host",
+                "localhost",
+                "--port",
+                "7001",
+                "--decimate",
+                "1",
+                "--target",
+                "machine"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/software/yeet/tools"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "detail": "Launches machine-side telemetry monitor",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Launch Grid-Side Monitor (Real Target - 192.168.2.100)",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "monitor.py",
+                "--host",
+                "192.168.2.100",
+                "--port",
+                "7000",
+                "--decimate",
+                "1",
+                "--target",
+                "grid"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/software/yeet/tools"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "detail": "Launches grid-side telemetry monitor for real embedded target (192.168.2.100:7000)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Launch Machine-Side Monitor (Real Target - 192.168.2.101)",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "monitor.py",
+                "--host",
+                "192.168.2.101",
+                "--port",
+                "7000",
+                "--decimate",
+                "1",
+                "--target",
+                "machine"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/software/yeet/tools"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "detail": "Launches machine-side telemetry monitor for real embedded target (192.168.2.101:7000)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Launch Full System (Simulator + Monitors)",
+            "dependsOn": [
+                "Launch SFC Simulator",
+                "Launch Grid-Side Monitor",
+                "Launch Machine-Side Monitor"
+            ],
+            "dependsOrder": "parallel",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "detail": "Launches simulator and both grid & machine-side telemetry monitors in parallel",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Launch Real Hardware Monitors (Grid + Machine)",
+            "dependsOn": [
+                "Launch Grid-Side Monitor (Real Target - 192.168.2.100)",
+                "Launch Machine-Side Monitor (Real Target - 192.168.2.101)"
+            ],
+            "dependsOrder": "parallel",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "detail": "Launches both grid and machine-side telemetry monitors for real embedded hardware",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Yeet plot: Browse File and Plot Telemetry File",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-STA",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/.vscode/select_telemetry_file.ps1",
+                "-WorkspaceFolder",
+                "${workspaceFolder}"
+            ],
+            "problemMatcher": [],
+            "group": "test",
+            "detail": "Browse to any directory and select a specific telemetry file to plot"
+        },
+        {
+            "label": "Yeet plot: Current Open Telemetry File (In VSCode) ",
+            "type": "shell",
+            "command": "python.exe",
+            "args": [
+                "${workspaceFolder}/software/yeet/tools/plot_telemetry.py",
+                "${file}",
+                "--open"
+            ],
+            "problemMatcher": [],
+            "group": "test",
+            "detail": "Plots the telemetry JSON file currently active in your editor"
+        }
+    ]
+}

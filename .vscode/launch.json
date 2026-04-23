@@ -1,0 +1,343 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) SFC Host Simulator - Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/Debug/sfc_host_simulator.exe",
+            "args": [
+                "--grid-port",
+                "7000",
+                "--machine-port",
+                "7001",
+                "--frequency",
+                "5000"
+                // ,
+                // "--verbose"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) SFC Host Simulator - RelWithDebInfo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/RelWithDebInfo/sfc_host_simulator.exe",
+            "args": [
+                "--grid-port",
+                "7000",
+                "--machine-port",
+                "7001",
+                "--frequency",
+                "5000"
+                //,
+                //"--verbose"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet unittests - Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/Debug/yeet_test.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet unittests - RelWithDebInfo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/RelWithDebInfo/yeet_test.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet control unittests - Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/Debug/yeet_control_tests.exe",
+            "args": [
+                // "--gtest_filter=**"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet control unittests - RelWithDebInfo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/RelWithDebInfo/yeet_control_tests.exe",
+            "args": [
+                // "--gtest_filter=**"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet application sfc unittests - Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/Debug/yeet_application_sfc_tests.exe",
+            "args": [
+                // "--gtest_filter=**"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet application sfc unittests - RelWithDebInfo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/RelWithDebInfo/yeet_application_sfc_tests.exe",
+            "args": [
+                // "--gtest_filter=**"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet application sfc integration unittests - Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/Debug/yeet_application_sfc_integration_tests.exe",
+            "args": [
+                // "--gtest_filter=**"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet application sfc integration unittests - RelWithDebInfo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/RelWithDebInfo/yeet_application_sfc_integration_tests.exe",
+            "args": [
+                // "--gtest_filter=**"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet testing unittests - Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/Debug/yeet_testing_tests.exe",
+            "args": [
+                // "--gtest_filter=**"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) yeet testing unittests - RelWithDebInfo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build-host/bin/RelWithDebInfo/yeet_testing_tests.exe",
+            "args": [
+                // "--gtest_filter=**"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(Cortex-Debug) STM32F407ZG-CN Grid-Side - RelWithDebInfo Build",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "jlink",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build-embedded-cn-grid/bin/RelWithDebInfo/yeet_embedded_app_grid.elf",
+            "device": "STM32F407ZG",
+            "interface": "swd",
+            "serialNumber": "",
+            "runToEntryPoint": "main",
+            "svdFile": "C:/DevEnv/STM32CubeCLT_1.19.0/STMicroelectronics_CMSIS_SVD/STM32F407.svd",
+            "preLaunchCommands": [
+                "monitor reset"
+            ],
+            "showDevDebugOutput": "raw",
+            "serverpath": "C:/DevEnv/SEGGER/JLink_V876/JLinkGDBServerCL.exe",
+            "armToolchainPath": "C:/DevEnv/STM32CubeCLT_1.19.0/GNU-tools-for-STM32/bin"
+        },
+        {
+            "name": "(Cortex-Debug) STM32F407ZG-CN Grid-Side - Release Build",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "jlink",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build-embedded-cn-grid/bin/Release/yeet_embedded_app_grid.elf",
+            "device": "STM32F407ZG",
+            "interface": "swd",
+            "serialNumber": "",
+            "runToEntryPoint": "main",
+            "svdFile": "C:/DevEnv/STM32CubeCLT_1.19.0/STMicroelectronics_CMSIS_SVD/STM32F407.svd",
+            "preLaunchCommands": [
+                "monitor reset"
+            ],
+            "showDevDebugOutput": "raw",
+            "serverpath": "C:/DevEnv/SEGGER/JLink_V876/JLinkGDBServerCL.exe",
+            "armToolchainPath": "C:/DevEnv/STM32CubeCLT_1.19.0/GNU-tools-for-STM32/bin"
+        },
+        {
+            "name": "(Cortex-Debug) STM32F407ZG-CN Machine-Side - RelWithDebInfo Build",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "jlink",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build-embedded-cn-machine/bin/RelWithDebInfo/yeet_embedded_app_machine.elf",
+            "device": "STM32F407ZG",
+            "interface": "swd",
+            "serialNumber": "",
+            "runToEntryPoint": "main",
+            "svdFile": "C:/DevEnv/STM32CubeCLT_1.19.0/STMicroelectronics_CMSIS_SVD/STM32F407.svd",
+            "preLaunchCommands": [
+                "monitor reset"
+            ],
+            "showDevDebugOutput": "raw",
+            "serverpath": "C:/DevEnv/SEGGER/JLink_V876/JLinkGDBServerCL.exe",
+            "armToolchainPath": "C:/DevEnv/STM32CubeCLT_1.19.0/GNU-tools-for-STM32/bin"
+        },
+        {
+            "name": "(Cortex-Debug) STM32F407ZG-CN Machine-Side - Release Build",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "jlink",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build-embedded-cn-machine/bin/Release/yeet_embedded_app_machine.elf",
+            "device": "STM32F407ZG",
+            "interface": "swd",
+            "serialNumber": "",
+            "runToEntryPoint": "main",
+            "svdFile": "C:/DevEnv/STM32CubeCLT_1.19.0/STMicroelectronics_CMSIS_SVD/STM32F407.svd",
+            "preLaunchCommands": [
+                "monitor reset"
+            ],
+            "showDevDebugOutput": "raw",
+            "serverpath": "C:/DevEnv/SEGGER/JLink_V876/JLinkGDBServerCL.exe",
+            "armToolchainPath": "C:/DevEnv/STM32CubeCLT_1.19.0/GNU-tools-for-STM32/bin"
+        }
+    ]
+}
