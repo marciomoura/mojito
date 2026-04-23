@@ -80,8 +80,9 @@ else()
 endif()
 
 # --- Core Library ---
-# This pulls in the CMakeLists.txt you have inside the 'mojito' folder
-add_subdirectory(mojito)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mojito/CMakeLists.txt")
+    add_subdirectory(mojito)
+endif()
 
 # --- Examples ---
 if(MOJITO_BUILD_EXAMPLES)
