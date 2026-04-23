@@ -24,7 +24,7 @@ jobs:
       - name: Cache APT packages
         uses: awalsh128/cache-apt-pkgs-action@v1.4.3
         with:
-          packages: cmake ninja-build clang gcc g++ ccache mold llvm
+          packages: cmake ninja-build clang gcc g++ ccache mold llvm cppcheck
           version: 1.0
 
       - name: Setup ccache
@@ -54,7 +54,8 @@ jobs:
                 -DCMAKE_C_COMPILER=$CC \
                 -DCMAKE_CXX_COMPILER=$CXX \
                 -DMOJITO_BUILD_TESTING=ON \
-                -DMOJITO_ENABLE_CCACHE=ON
+                -DMOJITO_ENABLE_CCACHE=ON \
+                -DMOJITO_ENABLE_CPPCHECK=ON
           echo "=== CMake Configuration Complete ==="
 
       - name: Build all test targets

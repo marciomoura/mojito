@@ -14,6 +14,11 @@ target_sources(
             reference_frame_test.cpp
             units_test.cpp)
 
+# Enable cppcheck if available
+if(CMAKE_CXX_CPPCHECK)
+    set_target_properties(${PROJECT_NAME} PROPERTIES CXX_CPPCHECK "${CMAKE_CXX_CPPCHECK}")
+endif()
+
 # Link dependencies
 target_link_libraries(
     ${PROJECT_NAME}
