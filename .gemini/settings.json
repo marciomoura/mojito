@@ -1,0 +1,10 @@
+{
+    "experimental": {
+        "autoMemory": true
+    },
+    "general": {
+        "checkpointing": {
+            "enabled": true
+        }
+    }
+}

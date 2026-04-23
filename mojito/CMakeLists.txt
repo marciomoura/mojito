@@ -10,6 +10,7 @@ target_sources(
     BASE_DIRS include
     FILES 
         include/mojito/angle_wrapped.hpp
+        include/mojito/constants.hpp
         include/mojito/divisor.hpp
         include/mojito/reference_frame.hpp
         include/mojito/type_traits.hpp
