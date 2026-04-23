@@ -5,15 +5,16 @@ add_library(mojito::mojito ALIAS ${PROJECT_NAME})
 
 target_sources(
     ${PROJECT_NAME}
-    INTERFACE include/mojito/angle_wrapped.hpp
-              include/mojito/divisor.hpp
-              include/mojito/reference_frame.hpp
-              include/mojito/type_traits.hpp
-              include/mojito/types.hpp
-              include/mojito/units.hpp)
-
-target_include_directories(${PROJECT_NAME}
-                           INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    INTERFACE 
+    FILE_SET HEADERS
+    BASE_DIRS include
+    FILES 
+        include/mojito/angle_wrapped.hpp
+        include/mojito/divisor.hpp
+        include/mojito/reference_frame.hpp
+        include/mojito/type_traits.hpp
+        include/mojito/types.hpp
+        include/mojito/units.hpp)
 
 target_link_libraries(${PROJECT_NAME} INTERFACE)
 
