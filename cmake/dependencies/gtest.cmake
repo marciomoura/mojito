@@ -1,11 +1,9 @@
 # Description: Fetch the google-test framework (https://github.com/google/googletest)
 
-message(
-    STATUS
-        "-- mojito build-config: 🟢 searching googletest package for ${CMAKE_SYSTEM_NAME}"
-)
-
 include(FetchContent)
+
+set(FETCHCONTENT_QUIET ON)
+
 fetchcontent_declare(
     googletest
     URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
@@ -15,7 +13,18 @@ fetchcontent_declare(
 set(gtest_force_shared_crt
     ON
     CACHE BOOL "" FORCE)
+
+# Suppress warnings from GoogleTest
+set(OLD_WARN_DEPRECATED ${CMAKE_WARN_DEPRECATED})
+set(CMAKE_WARN_DEPRECATED
+    OFF
+    CACHE BOOL "" FORCE)
+
 fetchcontent_makeavailable(googletest)
+
+set(CMAKE_WARN_DEPRECATED
+    ${OLD_WARN_DEPRECATED}
+    CACHE BOOL "" FORCE)
 
 if(NOT TARGET gtest::gtest)
     add_library(gtest::gtest ALIAS gtest)
