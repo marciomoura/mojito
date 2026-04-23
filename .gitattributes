@@ -1,0 +1,3 @@
+# This will treat all files as text files and convert to OS's line ending on checkout and back to LF on commit automatically.
+# https://stackoverflow.com/questions/10418975/how-to-change-line-ending-settings
+* text=auto

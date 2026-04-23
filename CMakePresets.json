@@ -1,0 +1,177 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "host-base",
+            "hidden": true,
+            "description": "Base configuration for host builds",
+            "binaryDir": "${sourceDir}/build-host",
+            "cacheVariables": {
+                "YEET_BUILD_EMBEDDED": "OFF",
+                "YEET_BUILD_TESTING": "ON",
+                "YEET_BUILD_EXAMPLES": "ON",
+                "YEET_ENABLE_CCACHE": "ON",
+                "YEET_SFC_HOST_BUILD": "ON"
+            },
+            "generator": "Ninja Multi-Config"
+        },
+        {
+            "name": "host-gcc",
+            "displayName": "Host Build (GCC)",
+            "description": "Host build with SFC simulators using GCC - select Debug/Release at build time",
+            "inherits": "host-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe"
+            }
+        },
+        {
+            "name": "host-clang",
+            "displayName": "Host Build (Clang)",
+            "description": "Host build with SFC simulators using Clang - select Debug/Release at build time",
+            "inherits": "host-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/clang.exe",
+                "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/clang++.exe"
+            }
+        },
+        {
+            "name": "mingw-cc",
+            "displayName": "mingw-cc configuration",
+            "toolchainFile": "cmake/toolchain/x86_64-w64-mingw32.cmake",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "cacheVariables": {
+                "YEET_SFC_HOST_BUILD": "ON"
+            }
+        },
+        {
+            "name": "embedded-base",
+            "hidden": true,
+            "description": "Base configuration for embedded builds",
+            "toolchainFile": "${sourceDir}/cmake/toolchains/stm32-gcc-toolchain.cmake",
+            "cacheVariables": {
+                "YEET_BUILD_EMBEDDED": "ON",
+                "YEET_BUILD_TESTING": "OFF",
+                "YEET_BUILD_EXAMPLES": "OFF",
+                "YEET_ENABLE_CCACHE": "ON"
+            },
+            "generator": "Ninja Multi-Config"
+        },
+        {
+            "name": "embedded-cn-grid",
+            "displayName": "stm32f407zg-cn Grid-Side",
+            "description": "stm32f407zg-cn Board - Grid-Side Controller",
+            "inherits": "embedded-base",
+            "binaryDir": "${sourceDir}/build-embedded-cn-grid",
+            "cacheVariables": {
+                "YEET_SFC_EMBEDDED_BOARD": "stm32f407zg-cn",
+                "YEET_SFC_EMBEDDED_SIDE": "GRID"
+            }
+        },
+        {
+            "name": "embedded-cn-machine",
+            "displayName": "stm32f407zg-cn Machine-Side",
+            "description": "stm32f407zg-cn Board - Machine-Side Controller",
+            "inherits": "embedded-base",
+            "binaryDir": "${sourceDir}/build-embedded-cn-machine",
+            "cacheVariables": {
+                "YEET_SFC_EMBEDDED_BOARD": "stm32f407zg-cn",
+                "YEET_SFC_EMBEDDED_SIDE": "MACHINE"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "host-gcc-debug",
+            "displayName": "Host GCC - Debug",
+            "configurePreset": "host-gcc",
+            "configuration": "Debug"
+        },
+        {
+            "name": "host-gcc-release",
+            "displayName": "Host GCC - Release",
+            "configurePreset": "host-gcc",
+            "configuration": "Release"
+        },
+        {
+            "name": "host-gcc-relwithdebinfo",
+            "displayName": "Host GCC - RelWithDebInfo",
+            "configurePreset": "host-gcc",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "host-clang-debug",
+            "displayName": "Host Clang - Debug",
+            "configurePreset": "host-clang",
+            "configuration": "Debug"
+        },
+        {
+            "name": "host-clang-release",
+            "displayName": "Host Clang - Release",
+            "configurePreset": "host-clang",
+            "configuration": "Release"
+        },
+        {
+            "name": "host-clang-relwithdebinfo",
+            "displayName": "Host Clang - RelWithDebInfo",
+            "configurePreset": "host-clang",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "embedded-cn-grid-release",
+            "displayName": "CN Grid - Release",
+            "configurePreset": "embedded-cn-grid",
+            "configuration": "Release"
+        },
+        {
+            "name": "embedded-cn-grid-relwithdebinfo",
+            "displayName": "CN Grid - RelWithDebInfo",
+            "configurePreset": "embedded-cn-grid",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "embedded-cn-machine-release",
+            "displayName": "CN Machine - Release",
+            "configurePreset": "embedded-cn-machine",
+            "configuration": "Release"
+        },
+        {
+            "name": "embedded-cn-machine-relwithdebinfo",
+            "displayName": "CN Machine - RelWithDebInfo",
+            "configurePreset": "embedded-cn-machine",
+            "configuration": "RelWithDebInfo"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "host-gcc-test",
+            "displayName": "Test - Host GCC Debug",
+            "configurePreset": "host-gcc",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        },
+        {
+            "name": "host-clang-test",
+            "displayName": "Test - Host Clang Debug",
+            "configurePreset": "host-clang",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        }
+    ]
+}

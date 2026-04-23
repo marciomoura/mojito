@@ -1,0 +1,20 @@
+# Root clangd configuration for yeet project
+
+CompileFlags:
+    # Use host build by default
+    CompilationDatabase: build-host
+
+Index:
+    Background: Build
+
+Hover:
+    ShowAKA: Yes
+
+Diagnostics:
+    UnusedIncludes: None
+    MissingIncludes: Strict
+    
+InlayHints:
+    Enabled: Yes
+    ParameterNames: Yes
+    DeducedTypes: Yes
