@@ -53,9 +53,11 @@ jobs:
                 -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                 -DCMAKE_C_COMPILER=$CC \
                 -DCMAKE_CXX_COMPILER=$CXX \
+                -DCMAKE_CXX_STANDARD=20 \
+                -DCMAKE_CXX_STANDARD_REQUIRED=ON \
                 -DMOJITO_BUILD_TESTING=ON \
                 -DMOJITO_ENABLE_CCACHE=ON \
-                -DMOJITO_ENABLE_CPPCHECK=ON
+                -DMOJITO_ENABLE_CPPCHECK=ON 
           echo "=== CMake Configuration Complete ==="
 
       - name: Build all test targets

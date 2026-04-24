@@ -19,6 +19,33 @@ target_sources(
 
 target_link_libraries(${PROJECT_NAME} INTERFACE)
 
+# C++20 Module Companion Target
+set(MOJITO_HAS_MODULE_SUPPORT OFF)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.28")
+    if((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "16.0") OR
+       (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "14.0") OR
+       (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "19.34"))
+        set(MOJITO_HAS_MODULE_SUPPORT ON)
+    endif()
+endif()
+
+if(MOJITO_HAS_MODULE_SUPPORT)
+    add_library(mojito_module STATIC)
+    add_library(mojito::module ALIAS mojito_module)
+
+    set_target_properties(mojito_module PROPERTIES CXX_SCAN_FOR_MODULES ON)
+
+    target_link_libraries(mojito_module PRIVATE ${PROJECT_NAME})
+    target_compile_features(mojito_module PUBLIC cxx_std_20)
+
+    target_sources(
+        mojito_module
+        PUBLIC
+        FILE_SET CXX_MODULES
+        BASE_DIRS modules
+        FILES modules/mojito.cppm)
+endif()
+
 # if(mojito_ENABLE_CODE_ANALYSIS)
 # get_target_property(TARGET_SOURCES
 # ${PROJECT_NAME} SOURCES) add_custom_target( ${PROJECT_NAME}_cppcheck DEPENDS

@@ -1,6 +1,8 @@
 {
     "experimental": {
-        "autoMemory": true
+        "autoMemory": true,
+        "modelSteering": true,
+        "enableNotifications": true
     },
     "general": {
         "checkpointing": {

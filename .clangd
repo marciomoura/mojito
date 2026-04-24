@@ -1,8 +1,12 @@
-# Root clangd configuration for yeet project
+# Root clangd configuration for mojito project
 
 CompileFlags:
     # Use host build by default
     CompilationDatabase: build-host
+    # Remove GCC-specific flags that Clangd (based on Clang) doesn't recognize
+    Remove: [-fmodule-mapper, -fdeps-format, -fmodules-ts]
+    # Ensure C++20 and modules are enabled for the linter
+    Add: [-std=c++20]
 
 Index:
     Background: Build

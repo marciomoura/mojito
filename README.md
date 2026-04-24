@@ -1,1 +1,69 @@
 # Mojito
+
+A modular C++ library for units and math, supporting both header-only and C++20 modules usage.
+
+## Compiling the Project
+
+This project uses **CMake Presets** to simplify the build process across different environments.
+
+### Prerequisites
+
+- **CMake** (version 3.28 or higher required for C++20 module support)
+- **Ninja** (recommended generator)
+- **GCC** (version 15.1+ recommended) or **Clang**
+
+### 1. Configuration
+
+To configure the project using the default GCC preset, run the following from the root directory:
+
+```powershell
+cmake --preset host-gcc
+```
+
+This will create the `build-host` directory and prepare the build system.
+
+### 2. Building
+
+You can build all targets or specific components using the following build presets:
+
+*   **Build everything** (Library, Module, Tests, and Examples):
+    ```powershell
+    cmake --build --preset host-gcc-debug
+    ```
+
+*   **Build specific targets**:
+    ```powershell
+    # Build only the C++20 Module library
+    cmake --build --preset host-gcc-debug --target mojito_module
+
+    # Build only the module usage example
+    cmake --build --preset host-gcc-debug --target example_module_usage
+    ```
+
+### 3. Running Tests and Examples
+
+After building, binaries are located in the `build-host/bin/` directory.
+
+*   **Run the C++20 Module Example**:
+    ```powershell
+    ./build-host/bin/example_module_usage.exe
+    ```
+
+*   **Run All Unit Tests**:
+    ```powershell
+    ctest --preset host-gcc-test
+    ```
+
+## Usage Modes
+
+### Header-Only (Interface)
+Link your target against `mojito::mojito` and include the headers:
+```cpp
+#include <mojito/mojito.hpp>
+```
+
+### C++20 Module
+Link your target against `mojito::module` and import the module:
+```cpp
+import mojito;
+```

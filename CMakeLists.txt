@@ -5,23 +5,21 @@ project(
     VERSION 0.1.0
     DESCRIPTION "A modular C++ library for units and math"
     HOMEPAGE_URL "https://github.com/marciomoura/mojito/"
-    LANGUAGES CXX)
+    LANGUAGES CXX
+)
 
 # Output directory configuration
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-list(
-    APPEND
-    CMAKE_MODULE_PATH
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/dependencies")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" "${CMAKE_CURRENT_SOURCE_DIR}/cmake/dependencies")
 
 # Standard C++ Configuration
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Build Options
@@ -65,10 +63,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mojito/CMakeLists.txt")
 endif()
 
 # Examples
-if(MOJITO_BUILD_EXAMPLES AND EXISTS
-                             "${CMAKE_CURRENT_SOURCE_DIR}/mojito/examples")
+if(MOJITO_BUILD_EXAMPLES AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mojito/examples")
     message(STATUS "Examples enabled")
-    # add_subdirectory(mojito/examples)
+    add_subdirectory(mojito/examples)
 endif()
 
 # Tests
