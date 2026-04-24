@@ -1,4 +1,4 @@
-angle_test.cpp
+ab_bc_ca_test.cpp
 Note: including file: C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\external\googletest~\googletest\include\gtest/gtest.h
 Note: including file:  C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\include\cstddef
 Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\include\yvals_core.h
@@ -161,11 +161,19 @@ Note: including file:    C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\ext
 Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\external\googletest~\googletest\include\gtest/gtest-typed-test.h
 Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\external\googletest~\googletest\include\gtest/gtest_pred_impl.h
 Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\external\googletest~\googletest\include\gtest/gtest_prod.h
-Note: including file: C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito/angle_wrapped.hpp
-Note: including file:  C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\include\cassert
-Note: including file:   C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\assert.h
+Note: including file: C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito/mojito.hpp
 Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\constants.hpp
 Note: including file:   C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\types.hpp
+Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\type_traits.hpp
 Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\units.hpp
 Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\include\algorithm
 Note: including file:   C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\divisor.hpp
+Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\angle_wrapped.hpp
+Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\include\cassert
+Note: including file:    C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt\assert.h
+Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\abc.hpp
+Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\include\array
+Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\alphabeta.hpp
+Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\dq.hpp
+Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\ab_bc_ca.hpp
+Note: including file:  C:\users\marci\_bazel_marci\ihir5uhi\execroot\_main\mojito\include\mojito\transform.hpp
