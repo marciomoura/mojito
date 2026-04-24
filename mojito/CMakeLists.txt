@@ -24,6 +24,8 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.28")
     add_library(mojito_module STATIC)
     add_library(mojito::module ALIAS mojito_module)
 
+    set_target_properties(mojito_module PROPERTIES CXX_SCAN_FOR_MODULES ON)
+
     target_link_libraries(mojito_module PRIVATE ${PROJECT_NAME})
     target_compile_features(mojito_module PUBLIC cxx_std_20)
 

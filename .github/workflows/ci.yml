@@ -57,7 +57,7 @@ jobs:
                 -DCMAKE_CXX_STANDARD_REQUIRED=ON \
                 -DMOJITO_BUILD_TESTING=ON \
                 -DMOJITO_ENABLE_CCACHE=ON \
-                -DMOJITO_ENABLE_CPPCHECK=ON
+                -DMOJITO_ENABLE_CPPCHECK=ON 
           echo "=== CMake Configuration Complete ==="
 
       - name: Build all test targets

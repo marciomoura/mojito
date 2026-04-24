@@ -1,5 +1,7 @@
 project(mojito_tests CXX)
 
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+
 # Create the test executable
 add_executable(${PROJECT_NAME})
 add_executable(mojito::mojito_tests ALIAS ${PROJECT_NAME})
