@@ -54,6 +54,28 @@ After building, binaries are located in the `build-host/bin/` directory.
     ctest --preset host-gcc-test
     ```
 
+## Compiling with Bazel
+
+The project also supports the **Bazel** build system (version 7.4.1+). We recommend using [Bazelisk](https://github.com/bazelbuild/bazelisk) to automatically manage the correct Bazel version.
+
+### 1. Building the Library
+To build the core `mojito` library:
+```powershell
+bazelisk build //:mojito
+```
+
+### 2. Running Tests
+To build and run the entire test suite:
+```powershell
+bazelisk test //mojito/tests:mojito_tests
+```
+
+### 3. Build Everything
+To build all targets in the workspace:
+```powershell
+bazelisk build //...
+```
+
 ## Usage Modes
 
 ### Header-Only (Interface)
