@@ -1,6 +1,18 @@
 # Mojito
 
-A modular C++ library for units and math, supporting both header-only and C++20 modules usage.
+A collection of useful classes and functions to write real-time control software for power-electronic applications.
+
+To control three-phase rectifiers or inverters, the `abc`, `alphabeta` and `dq` types are fundamental.
+
+To write a more readable and safe software, the definition of strong-types is highly recommended.
+
+Expressing types as `pu`, `si` or in `percent` avoids many issues when assignment of e.g. `pu` to a `si` happens. 
+
+The integration of `angles` which are used in `pll` algorithms usually needs a `2\pi` wrapping, otherwise it will integrate to infinity.
+
+For real-time code, constants or run-time parameters should pre-compute its reciprocal. Divisions are much more expensive than multiplication.
+
+Well... these are my reasons to create this small project. 
 
 ## Compiling the Project
 
@@ -75,6 +87,19 @@ To build all targets in the workspace:
 ```powershell
 bazelisk build //...
 ```
+
+### 4. Cross-Compilation
+The project is configured for hermetic cross-compilation using the LLVM toolchain. You can target different architectures using the following configurations:
+
+*   **ARM64 Linux**:
+    ```powershell
+    bazelisk build --config=arm64 //...
+    ```
+*   **Cortex-M4 (Bare Metal)**:
+    ```powershell
+    bazelisk build --config=m4 //...
+    ```
+    *Note: This configuration ensures the library remains "freestanding" and suitable for microcontrollers.*
 
 ## Usage Modes
 

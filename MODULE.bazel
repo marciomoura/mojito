@@ -4,4 +4,64 @@ module(
 )
 
 bazel_dep(name = "rules_cc", version = "0.2.17")
+bazel_dep(name = "toolchains_llvm", version = "1.7.0")
+bazel_dep(name = "platforms", version = "0.0.11")
+
+llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
+llvm.toolchain(
+    name = "llvm_toolchain",
+    llvm_version = "16.0.0",
+    # Global flags for all C/C++ files
+    compile_flags = {
+        "": [
+            "-Wall",
+            "-Wextra",
+            "-Wpedantic",
+            "-Werror",
+        ],
+        # ARM64 Linux specific flags
+        "linux-aarch64": [
+            "-march=armv8-a",
+        ],
+        # Cortex-M4 Bare Metal specific flags (mapped to linux-armv7 for registration)
+        "linux-armv7": [
+            "--target=arm-none-eabi",
+            "-mcpu=cortex-m4",
+            "-mthumb",
+            "-mfloat-abi=hard",
+            "-mfpu=fpv4-sp-d16",
+            "-ffreestanding",
+        ],
+    },
+    # C++ specific flags
+    cxx_flags = {
+        "": ["-std=c++20"],
+    },
+    # Applied only during 'bazel build -c opt'
+    opt_compile_flags = {
+        "": ["-O3"],
+    },
+    # Applied only during 'bazel build -c dbg'
+    dbg_compile_flags = {
+        "": ["-g"],
+    },
+)
+
+# Trigger toolchain registration for cross-compilation targets
+# Note: In a real cross-compilation scenario, 'label' would point to a real sysroot.
+llvm.sysroot(
+    name = "llvm_toolchain",
+    targets = ["linux-aarch64"],
+    label = "@bazel_tools//tools/cpp:empty", 
+)
+llvm.sysroot(
+    name = "llvm_toolchain",
+    targets = ["linux-armv7"],
+    label = "@bazel_tools//tools/cpp:empty",
+)
+
+use_repo(llvm, "llvm_toolchain")
+
+register_toolchains("@llvm_toolchain//:all")
+
 bazel_dep(name = "googletest", version = "1.17.0")

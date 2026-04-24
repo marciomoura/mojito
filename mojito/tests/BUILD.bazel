@@ -3,6 +3,10 @@ load("@rules_cc//cc:defs.bzl", "cc_test")
 cc_test(
     name = "mojito_tests",
     size = "small",
+    target_compatible_with = select({
+        "@platforms//cpu:x86_64": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
     srcs = [
         "ab_bc_ca_test.cpp",
         "abc_test.cpp",

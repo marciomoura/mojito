@@ -1,0 +1,38 @@
+package(default_visibility = ["//visibility:public"])
+
+# Host Platforms (for explicit targeting)
+platform(
+    name = "x86_64_linux",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+)
+
+platform(
+    name = "x86_64_windows",
+    constraint_values = [
+        "@platforms//os:windows",
+        "@platforms//cpu:x86_64",
+    ],
+)
+
+# Cross-compilation Target: ARM64 Linux
+platform(
+    name = "linux_aarch64",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:aarch64",
+    ],
+)
+
+# Cross-compilation Target: Cortex-M4 (Bare Metal)
+# Note: We use os:linux and cpu:arm to match the toolchains_llvm 'linux-armv7' registration,
+# but our compile_flags in MODULE.bazel will override this for bare-metal arm-none-eabi.
+platform(
+    name = "cortex_m4",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:arm",
+    ],
+)
