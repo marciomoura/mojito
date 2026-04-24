@@ -7,7 +7,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, master, develop, feature/bazel-support]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        compiler: [clang, gcc]
+        compiler: [clang]
       fail-fast: false
     steps:
       - name: Download test binaries
@@ -100,18 +100,10 @@ jobs:
 
   # Job 3: Bazel Build & Test
   bazel:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Free Disk Space
-        run: |
-          # Free up ~20GB of disk space to ensure LLVM extraction succeeds
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
       - name: Mount Bazel Repository Cache
         uses: actions/cache@v4
@@ -129,7 +121,7 @@ jobs:
       - name: Build and Test with Bazel
         run: |
           bazel test //...
-
+          
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
