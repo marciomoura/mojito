@@ -1,0 +1,17 @@
+/nologo
+/OUT:bazel-out/x64_windows-fastbuild/bin/mojito/tests/mojito_tests.exe
+bazel-out/x64_windows-fastbuild/bin/mojito/tests/_objs/mojito_tests/ab_bc_ca_test.obj
+bazel-out/x64_windows-fastbuild/bin/mojito/tests/_objs/mojito_tests/abc_test.obj
+bazel-out/x64_windows-fastbuild/bin/mojito/tests/_objs/mojito_tests/alphabeta_test.obj
+bazel-out/x64_windows-fastbuild/bin/mojito/tests/_objs/mojito_tests/angle_test.obj
+bazel-out/x64_windows-fastbuild/bin/mojito/tests/_objs/mojito_tests/divisor_test.obj
+bazel-out/x64_windows-fastbuild/bin/mojito/tests/_objs/mojito_tests/dq_test.obj
+bazel-out/x64_windows-fastbuild/bin/mojito/tests/_objs/mojito_tests/transform_test.obj
+bazel-out/x64_windows-fastbuild/bin/mojito/tests/_objs/mojito_tests/units_test.obj
+bazel-out/x64_windows-fastbuild/bin/external/googletest~/gtest_main.lib
+bazel-out/x64_windows-fastbuild/bin/external/googletest~/gtest.lib
+/SUBSYSTEM:CONSOLE
+/MACHINE:X64
+/DEFAULTLIB:msvcrt.lib
+/DEBUG:FASTLINK
+/INCREMENTAL:NO

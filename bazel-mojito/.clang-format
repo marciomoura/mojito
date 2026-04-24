@@ -1,0 +1,29 @@
+---
+BasedOnStyle: Google
+IndentWidth: 4
+AccessModifierOffset: -4
+ColumnLimit: 120
+PointerAlignment: Left
+AlignConsecutiveMacros: true
+AllowShortFunctionsOnASingleLine: All
+
+# --- Key changes for template wrapping ---
+# If the parameters don't fit on one line, put each on a new line.
+BinPackParameters: false
+
+# Don't align parameters after an opening bracket ('<', '(', '[').
+# Instead, use a continuation indent.
+AlignAfterOpenBracket: DontAlign
+
+# --- Custom brace wrapping rules ---
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: false
+  AfterFunction: true
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterStruct: false
+  BeforeElse: true
+
+---
+Language: Cpp

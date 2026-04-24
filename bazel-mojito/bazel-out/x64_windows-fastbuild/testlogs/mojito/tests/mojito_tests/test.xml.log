@@ -1,0 +1,126 @@
+Running main() from gmock_main.cc
+[==========] Running 48 tests from 8 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from AbBcCaTest
+[ RUN      ] AbBcCaTest.ConstructionAndAccessors
+[       OK ] AbBcCaTest.ConstructionAndAccessors (0 ms)
+[----------] 1 test from AbBcCaTest (0 ms total)
+
+[----------] 6 tests from AbcTest
+[ RUN      ] AbcTest.DefaultConstructor
+[       OK ] AbcTest.DefaultConstructor (0 ms)
+[ RUN      ] AbcTest.ArrayConstructor
+[       OK ] AbcTest.ArrayConstructor (0 ms)
+[ RUN      ] AbcTest.ValueConstructor
+[       OK ] AbcTest.ValueConstructor (0 ms)
+[ RUN      ] AbcTest.AdditionAndSubtraction
+[       OK ] AbcTest.AdditionAndSubtraction (0 ms)
+[ RUN      ] AbcTest.UnaryNegation
+[       OK ] AbcTest.UnaryNegation (0 ms)
+[ RUN      ] AbcTest.ScalarOperations
+[       OK ] AbcTest.ScalarOperations (0 ms)
+[----------] 6 tests from AbcTest (0 ms total)
+
+[----------] 2 tests from AlphabetaTest
+[ RUN      ] AlphabetaTest.MagnitudeAndPhase
+[       OK ] AlphabetaTest.MagnitudeAndPhase (0 ms)
+[ RUN      ] AlphabetaTest.Rotation
+[       OK ] AlphabetaTest.Rotation (0 ms)
+[----------] 2 tests from AlphabetaTest (0 ms total)
+
+[----------] 18 tests from AngleWrappedTest
+[ RUN      ] AngleWrappedTest.DefaultConstructor
+[       OK ] AngleWrappedTest.DefaultConstructor (0 ms)
+[ RUN      ] AngleWrappedTest.Constructor
+[       OK ] AngleWrappedTest.Constructor (0 ms)
+[ RUN      ] AngleWrappedTest.SetValueWrapNegative
+[       OK ] AngleWrappedTest.SetValueWrapNegative (0 ms)
+[ RUN      ] AngleWrappedTest.SetValueWrapPositive
+[       OK ] AngleWrappedTest.SetValueWrapPositive (0 ms)
+[ RUN      ] AngleWrappedTest.SetValueExactlyTwoPi
+[       OK ] AngleWrappedTest.SetValueExactlyTwoPi (0 ms)
+[ RUN      ] AngleWrappedTest.SetValueExactlyZero
+[       OK ] AngleWrappedTest.SetValueExactlyZero (0 ms)
+[ RUN      ] AngleWrappedTest.Addition
+[       OK ] AngleWrappedTest.Addition (0 ms)
+[ RUN      ] AngleWrappedTest.NegationOperator
+[       OK ] AngleWrappedTest.NegationOperator (0 ms)
+[ RUN      ] AngleWrappedTest.AdditionWithWrapping
+[       OK ] AngleWrappedTest.AdditionWithWrapping (0 ms)
+[ RUN      ] AngleWrappedTest.SubtractionWithWrapping
+[       OK ] AngleWrappedTest.SubtractionWithWrapping (0 ms)
+[ RUN      ] AngleWrappedTest.AdditionAssignment
+[       OK ] AngleWrappedTest.AdditionAssignment (0 ms)
+[ RUN      ] AngleWrappedTest.SubtractionAssignment
+[       OK ] AngleWrappedTest.SubtractionAssignment (0 ms)
+[ RUN      ] AngleWrappedTest.ScalarMultiplication
+[       OK ] AngleWrappedTest.ScalarMultiplication (0 ms)
+[ RUN      ] AngleWrappedTest.Equality
+[       OK ] AngleWrappedTest.Equality (0 ms)
+[ RUN      ] AngleWrappedTest.EqualityWithWrapping
+[       OK ] AngleWrappedTest.EqualityWithWrapping (0 ms)
+[ RUN      ] AngleWrappedTest.LessThanBasic
+[       OK ] AngleWrappedTest.LessThanBasic (0 ms)
+[ RUN      ] AngleWrappedTest.LessThanWithWrapping
+[       OK ] AngleWrappedTest.LessThanWithWrapping (0 ms)
+[ RUN      ] AngleWrappedTest.ComparisonTransitivity
+[       OK ] AngleWrappedTest.ComparisonTransitivity (0 ms)
+[----------] 18 tests from AngleWrappedTest (0 ms total)
+
+[----------] 7 tests from DivisorTest
+[ RUN      ] DivisorTest.DefaultConstructor
+[       OK ] DivisorTest.DefaultConstructor (0 ms)
+[ RUN      ] DivisorTest.ConstructionAndAccessors
+[       OK ] DivisorTest.ConstructionAndAccessors (0 ms)
+[ RUN      ] DivisorTest.DivisionOperator
+[       OK ] DivisorTest.DivisionOperator (0 ms)
+[ RUN      ] DivisorTest.UnitsConstructionAndAccessors
+[       OK ] DivisorTest.UnitsConstructionAndAccessors (0 ms)
+[ RUN      ] DivisorTest.DivisionWithUnits
+[       OK ] DivisorTest.DivisionWithUnits (0 ms)
+[ RUN      ] DivisorTest.OptimizedPerUnitConversion
+[       OK ] DivisorTest.OptimizedPerUnitConversion (0 ms)
+[ RUN      ] DivisorTest.ToPuToSiFunctionIntegration
+[       OK ] DivisorTest.ToPuToSiFunctionIntegration (0 ms)
+[----------] 7 tests from DivisorTest (0 ms total)
+
+[----------] 1 test from DqTest
+[ RUN      ] DqTest.MagnitudeAndPhase
+[       OK ] DqTest.MagnitudeAndPhase (0 ms)
+[----------] 1 test from DqTest (0 ms total)
+
+[----------] 5 tests from TransformTest
+[ RUN      ] TransformTest.AbcToAlphabeta
+[       OK ] TransformTest.AbcToAlphabeta (0 ms)
+[ RUN      ] TransformTest.AlphaBetaToAbc
+[       OK ] TransformTest.AlphaBetaToAbc (0 ms)
+[ RUN      ] TransformTest.AlphaBetaToDq
+[       OK ] TransformTest.AlphaBetaToDq (0 ms)
+[ RUN      ] TransformTest.FullConversionCycle
+[       OK ] TransformTest.FullConversionCycle (0 ms)
+[ RUN      ] TransformTest.AbBcCa
+[       OK ] TransformTest.AbBcCa (0 ms)
+[----------] 5 tests from TransformTest (0 ms total)
+
+[----------] 8 tests from UnitsTest
+[ RUN      ] UnitsTest.QuantityCreationAndValueAccess
+[       OK ] UnitsTest.QuantityCreationAndValueAccess (0 ms)
+[ RUN      ] UnitsTest.CompileTimeDimensionMismatch
+[       OK ] UnitsTest.CompileTimeDimensionMismatch (0 ms)
+[ RUN      ] UnitsTest.CompileTimeSystemMismatch
+[       OK ] UnitsTest.CompileTimeSystemMismatch (0 ms)
+[ RUN      ] UnitsTest.SystemDifferentiation
+[       OK ] UnitsTest.SystemDifferentiation (0 ms)
+[ RUN      ] UnitsTest.ExplicitConversion
+[       OK ] UnitsTest.ExplicitConversion (0 ms)
+[ RUN      ] UnitsTest.ArithmeticOperations
+[       OK ] UnitsTest.ArithmeticOperations (0 ms)
+[ RUN      ] UnitsTest.ElectricalLaws
+[       OK ] UnitsTest.ElectricalLaws (0 ms)
+[ RUN      ] UnitsTest.MechanicalLaws
+[       OK ] UnitsTest.MechanicalLaws (0 ms)
+[----------] 8 tests from UnitsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 48 tests from 8 test suites ran. (0 ms total)
+[  PASSED  ] 48 tests.

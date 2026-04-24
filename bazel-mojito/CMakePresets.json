@@ -1,0 +1,91 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "host-base",
+            "hidden": true,
+            "description": "Base configuration for host builds",
+            "binaryDir": "${sourceDir}/build-host",
+            "cacheVariables": {
+                "MOJITO_BUILD_TESTING": "ON",
+                "MOJITO_BUILD_EXAMPLES": "ON",
+                "MOJITO_ENABLE_CCACHE": "ON"
+            },
+            "generator": "Ninja"
+        },
+        {
+            "name": "host-gcc",
+            "displayName": "Host Build (GCC)",
+            "description": "Host build using GCC",
+            "inherits": "host-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe"
+            }
+        },
+        {
+            "name": "host-clang",
+            "displayName": "Host Build (Clang)",
+            "description": "Host build using Clang",
+            "inherits": "host-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/clang.exe",
+                "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/clang++.exe"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "host-gcc-debug",
+            "displayName": "Host GCC - Debug",
+            "configurePreset": "host-gcc",
+            "configuration": "Debug"
+        },
+        {
+            "name": "host-gcc-release",
+            "displayName": "Host GCC - Release",
+            "configurePreset": "host-gcc",
+            "configuration": "Release"
+        },
+        {
+            "name": "host-clang-debug",
+            "displayName": "Host Clang - Debug",
+            "configurePreset": "host-clang",
+            "configuration": "Debug"
+        },
+        {
+            "name": "host-clang-release",
+            "displayName": "Host Clang - Release",
+            "configurePreset": "host-clang",
+            "configuration": "Release"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "host-gcc-test",
+            "displayName": "Test - Host GCC Debug",
+            "configurePreset": "host-gcc",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        },
+        {
+            "name": "host-clang-test",
+            "displayName": "Test - Host Clang Debug",
+            "configurePreset": "host-clang",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        }
+    ]
+}
