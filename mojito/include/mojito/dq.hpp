@@ -76,8 +76,6 @@ public:
         return rotate_counter_clockwise(angle_wrapped(-theta.get_radians()));
     }
 
-    constexpr dq<T> rotate(const angle_wrapped& theta) const { return rotate_counter_clockwise(theta); }
-
     constexpr dq<T> operator+(const dq<T>& other) const
     {
         return dq<T>{_values[0] + other._values[0], _values[1] + other._values[1]};

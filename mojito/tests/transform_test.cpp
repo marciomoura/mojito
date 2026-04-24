@@ -76,4 +76,20 @@ TEST(TransformTest, AbBcCa)
     expect_array_near_abc(back, phase.array());
 }
 
+TEST(TransformTest, AbcRotation)
+{
+    abc<real_t> phase{real_t{1.0}, real_t{-0.5}, real_t{-0.5}};
+    // Rotate by 120 degrees counter-clockwise
+    auto rotated = rotate_counter_clockwise(phase, angle_wrapped(two_pi_thirds));
+    
+    // Should now be phase B (roughly)
+    EXPECT_NEAR(rotated.a(), real_t{-0.5}, k_epsilon);
+    EXPECT_NEAR(rotated.b(), real_t{1.0}, k_epsilon);
+    EXPECT_NEAR(rotated.c(), real_t{-0.5}, k_epsilon);
+
+    // Rotate back clockwise
+    auto back = rotate_clockwise(rotated, angle_wrapped(two_pi_thirds));
+    expect_array_near_abc(back, phase.array());
+}
+
 }  // namespace
