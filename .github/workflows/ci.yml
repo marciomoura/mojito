@@ -98,6 +98,31 @@ jobs:
           echo "=== Running Unit Tests with ${{ matrix.compiler }} ==="
           ./build/bin/mojito_tests --gtest_color=yes
 
+  # Job 3: Bazel Build & Test
+  bazel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Mount Bazel cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/bazel
+          key: ${{ runner.os }}-bazel-${{ hashFiles('**/BUILD.bazel', '**/MODULE.bazel', '.bazelrc') }}
+          restore-keys: |
+            ${{ runner.os }}-bazel-
+
+      - name: Setup Bazel
+        uses: bazel-contrib/setup-bazel@0.8.5
+        with:
+          bazelisk-version: "1.19.0"
+
+      - name: Build and Test with Bazel
+        run: |
+          bazel test //mojito/tests:mojito_tests
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

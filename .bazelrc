@@ -1,0 +1,11 @@
+# Use C++20 for all builds
+build --cxxopt=-std=c++20
+build --host_cxxopt=-std=c++20
+
+# Show more information during the build
+build --show_progress_rate_limit=0
+build --show_task_finish
+build --verbose_failures
+
+# Enable colored output
+common --color=yes
