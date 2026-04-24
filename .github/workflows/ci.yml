@@ -9,11 +9,18 @@ on:
 jobs:
   bazel:
     name: Bazel Build & Test
-    # Using 22.04 because LLVM toolchains often require libtinfo5 which was removed in 24.04
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Free Disk Space
+        run: |
+          # Free up ~20GB of disk space to ensure LLVM extraction succeeds
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
       - name: Mount Bazel Repository Cache
         uses: actions/cache@v4
@@ -30,7 +37,8 @@ jobs:
 
       - name: Build and Test
         run: |
-          bazel test //...
+          # Move output base to current workspace to utilize freed disk space
+          bazel --output_user_root=$GITHUB_WORKSPACE/.bazel-root test //...
 
   cmake:
     name: CMake Build & Test
