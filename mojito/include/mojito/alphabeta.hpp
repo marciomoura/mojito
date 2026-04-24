@@ -78,8 +78,6 @@ public:
         return rotate_counter_clockwise(angle_wrapped(-theta.get_radians()));
     }
 
-    constexpr alphabeta<T> rotate(const angle_wrapped& theta) const { return rotate_counter_clockwise(theta); }
-
     constexpr alphabeta<T> operator+(const alphabeta<T>& other) const
     {
         return alphabeta<T>{_values[0] + other._values[0], _values[1] + other._values[1]};

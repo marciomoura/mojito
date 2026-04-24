@@ -15,6 +15,9 @@ target_sources(${PROJECT_NAME} PRIVATE
     dq_test.cpp 
     ab_bc_ca_test.cpp 
     transform_test.cpp
+    math_test.cpp
+    pu_conversion_test.cpp
+    quantity_cast_test.cpp
     angle_test.cpp 
     divisor_test.cpp 
     units_test.cpp)
