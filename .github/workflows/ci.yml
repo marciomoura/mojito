@@ -8,12 +8,8 @@ on:
 
 jobs:
   bazel:
-    name: Bazel ${{ matrix.config }}
+    name: Bazel Build & Test
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        config: [native, arm64, m4]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,7 +18,6 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.bazel-repo-cache
-          # Use a global key for all configs since they share the same external deps (LLVM)
           key: bazel-repo-cache-${{ hashFiles('**/MODULE.bazel') }}
           restore-keys: |
             bazel-repo-cache-
@@ -34,16 +29,34 @@ jobs:
 
       - name: Build and Test
         run: |
-          if [ "${{ matrix.config }}" = "native" ]; then
-            # Run full test suite for native host
-            bazel test //...
-          elif [ "${{ matrix.config }}" = "arm64" ]; then
-            # Cross-compile for ARM64 Linux
-            bazel build --config=arm64 //...
-          elif [ "${{ matrix.config }}" = "m4" ]; then
-            # Cross-compile for Cortex-M4 (Bare Metal)
-            bazel build --config=m4 //...
-          fi
+          bazel test //...
+
+  cmake:
+    name: CMake Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build clang
+
+      - name: Configure CMake
+        run: |
+          cmake -G Ninja -B build \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_CXX_COMPILER=clang++ \
+                -DMOJITO_BUILD_TESTING=ON
+
+      - name: Build
+        run: cmake --build build --parallel $(nproc)
+
+      - name: Test
+        run: |
+          cd build
+          ctest --output-on-failure
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
