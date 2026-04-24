@@ -1,5 +1,0 @@
-/nologo
-/OUT:bazel-out/x64_windows-fastbuild/bin/external/googletest~/gtest_main.lib
-/MACHINE:X64
-bazel-out/x64_windows-fastbuild/bin/external/googletest~/_objs/gtest_main/gmock_main.obj
-/ignore:4221
