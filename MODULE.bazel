@@ -10,7 +10,7 @@ bazel_dep(name = "platforms", version = "0.0.11")
 llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
 llvm.toolchain(
     name = "llvm_toolchain",
-    llvm_version = "16.0.0",
+    llvm_version = "18.1.8",
     # Global flags for all C/C++ files
     compile_flags = {
         "": [
@@ -47,17 +47,11 @@ llvm.toolchain(
     },
 )
 
-# Trigger toolchain registration for cross-compilation targets
-# Note: In a real cross-compilation scenario, 'label' would point to a real sysroot.
+# Trigger toolchain registration for cross-compilation targets.
 llvm.sysroot(
     name = "llvm_toolchain",
-    targets = ["linux-aarch64"],
+    targets = ["linux-aarch64", "linux-armv7"],
     label = "@bazel_tools//tools/cpp:empty", 
-)
-llvm.sysroot(
-    name = "llvm_toolchain",
-    targets = ["linux-armv7"],
-    label = "@bazel_tools//tools/cpp:empty",
 )
 
 use_repo(llvm, "llvm_toolchain")
