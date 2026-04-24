@@ -4,6 +4,7 @@ build --incompatible_enable_cc_toolchain_resolution
 # Common flags
 common --color=yes
 common --lockfile_mode=off
+common --repository_cache=~/.bazel-repo-cache
 
 # Output management
 build --verbose_failures

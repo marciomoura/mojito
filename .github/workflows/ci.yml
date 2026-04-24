@@ -18,14 +18,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Mount Bazel cache
+      - name: Mount Bazel Repository Cache
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.cache/bazel
-          key: ${{ runner.os }}-bazel-${{ matrix.config }}-${{ hashFiles('**/BUILD.bazel', '**/MODULE.bazel', '.bazelrc') }}
+          path: ~/.bazel-repo-cache
+          # Use a global key for all configs since they share the same external deps (LLVM)
+          key: bazel-repo-cache-${{ hashFiles('**/MODULE.bazel') }}
           restore-keys: |
-            ${{ runner.os }}-bazel-${{ matrix.config }}-
+            bazel-repo-cache-
 
       - name: Setup Bazel
         uses: bazel-contrib/setup-bazel@0.8.5
