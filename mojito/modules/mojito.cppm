@@ -31,6 +31,19 @@ using ::mojito::quantity;
 using ::mojito::is_quantity_v;
 using ::mojito::use_epsilon_comparison_v;
 
+// Operators
+using ::mojito::operator+;
+using ::mojito::operator-;
+using ::mojito::operator*;
+using ::mojito::operator/;
+using ::mojito::operator==;
+using ::mojito::operator!=;
+using ::mojito::operator<;
+using ::mojito::operator>;
+using ::mojito::operator<=;
+using ::mojito::operator>=;
+using ::mojito::operator<<;
+
 // Dimensions
 using ::mojito::dimensionless_dim;
 using ::mojito::length_dim;

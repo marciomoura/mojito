@@ -68,7 +68,7 @@ endif()
 if(MOJITO_BUILD_EXAMPLES AND EXISTS
                              "${CMAKE_CURRENT_SOURCE_DIR}/mojito/examples")
     message(STATUS "Examples enabled")
-    # add_subdirectory(mojito/examples)
+    add_subdirectory(mojito/examples)
 endif()
 
 # Tests
