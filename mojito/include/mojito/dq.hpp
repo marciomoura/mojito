@@ -27,24 +27,9 @@ public:
     constexpr dq(const std::array<T, 2>& values) : _values(values) {}
     constexpr dq(T d, T q) : _values{d, q} {}
 
-    constexpr dq(const dq<T>& other) : _values(other._values) {}
-    constexpr dq(dq<T>&& other) : _values(std::move(other._values)) {}
-
     template <typename U>
     constexpr dq(const dq<U>& other) : _values{static_cast<T>(other.d()), static_cast<T>(other.q())}
     {
-    }
-
-    constexpr dq<T>& operator=(const dq<T>& other)
-    {
-        _values = other._values;
-        return *this;
-    }
-
-    constexpr dq<T>& operator=(dq<T>&& other)
-    {
-        _values = std::move(other._values);
-        return *this;
     }
 
     constexpr T& operator[](size_t idx) { return _values[idx]; }
