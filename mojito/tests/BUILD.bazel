@@ -14,7 +14,7 @@ cc_test(
         "units_test.cpp",
     ],
     deps = [
-        "//:mojito",
+        "//mojito:mojito",
         "@googletest//:gtest_main",
     ],
 )

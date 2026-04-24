@@ -61,7 +61,7 @@ The project also supports the **Bazel** build system (version 7.4.1+). We recomm
 ### 1. Building the Library
 To build the core `mojito` library:
 ```powershell
-bazelisk build //:mojito
+bazelisk build //mojito:mojito
 ```
 
 ### 2. Running Tests

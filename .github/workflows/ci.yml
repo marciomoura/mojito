@@ -121,7 +121,7 @@ jobs:
 
       - name: Build and Test with Bazel
         run: |
-          bazel test //mojito/tests:mojito_tests
+          bazel test //mojito:mojito //mojito/tests:mojito_tests
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
