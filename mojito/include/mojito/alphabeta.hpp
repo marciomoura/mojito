@@ -27,25 +27,10 @@ public:
     constexpr alphabeta(const std::array<T, 2>& values) : _values(values) {}
     constexpr alphabeta(T alpha, T beta) : _values{alpha, beta} {}
 
-    constexpr alphabeta(const alphabeta<T>& other) : _values(other._values) {}
-    constexpr alphabeta(alphabeta<T>&& other) : _values(std::move(other._values)) {}
-
     template <typename U>
     constexpr alphabeta(const alphabeta<U>& other)
         : _values{static_cast<T>(other.alpha()), static_cast<T>(other.beta())}
     {
-    }
-
-    constexpr alphabeta<T>& operator=(const alphabeta<T>& other)
-    {
-        _values = other._values;
-        return *this;
-    }
-
-    constexpr alphabeta<T>& operator=(alphabeta<T>&& other)
-    {
-        _values = std::move(other._values);
-        return *this;
     }
 
     constexpr T& operator[](size_t idx) { return _values[idx]; }

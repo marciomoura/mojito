@@ -25,7 +25,7 @@ public:
     using value_type = T;
     using reciprocal_type = typename internal::reciprocal_type_helper<T>::type;
 
-    constexpr divisor() : _value{}, _reciprocal{real_t{1.0} / _value} {}
+    constexpr divisor() : _value{real_t{1.0}}, _reciprocal{real_t{1.0} / _value} {}
 
     constexpr explicit divisor(const T& val) : _value(val), _reciprocal(real_t{1.0} / val) {}
 

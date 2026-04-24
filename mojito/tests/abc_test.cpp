@@ -18,6 +18,10 @@ const std::array<real_t, 3> balanced_abc = {real_t{1.0}, real_t{-0.5}, real_t{-0
 
 TEST(AbcTest, DefaultConstructor)
 {
+    static_assert(std::is_trivially_copyable_v<abc<real_t>>);
+    static_assert(std::is_trivially_copyable_v<alphabeta<real_t>>);
+    static_assert(std::is_trivially_copyable_v<dq<real_t>>);
+
     abc<real_t> coords;
     expect_array_near_abc(coords, {real_t{0.0}, real_t{0.0}, real_t{0.0}});
 }

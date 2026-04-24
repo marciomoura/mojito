@@ -9,6 +9,13 @@ using namespace mojito;
 
 static constexpr real_t k_epsilon = real_t{1e-6};
 
+TEST(DivisorTest, DefaultConstructor)
+{
+    divisor<real_t> d;
+    EXPECT_NEAR(d.value(), real_t{1.0}, k_epsilon);
+    EXPECT_NEAR(d.reciprocal(), real_t{1.0}, k_epsilon);
+}
+
 TEST(DivisorTest, ConstructionAndAccessors)
 {
     constexpr real_t val = real_t{4.0};

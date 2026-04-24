@@ -24,27 +24,13 @@ public:
 
     constexpr abc() = default;
     constexpr abc(const std::array<T, 3>& values) : _values(values) {}
-    constexpr abc(std::array<T, 3>&& values) : _values(values) {}
+    constexpr abc(std::array<T, 3>&& values) : _values(std::move(values)) {}
     constexpr abc(T a, T b, T c) : _values{a, b, c} {}
-    constexpr abc(const abc<T>& other) : _values(other._values) {}
-    constexpr abc(abc<T>&& other) : _values(std::move(other._values)) {}
 
     template <typename U>
     constexpr abc(const abc<U>& other)
         : _values{static_cast<T>(other.a()), static_cast<T>(other.b()), static_cast<T>(other.c())}
     {
-    }
-
-    constexpr abc<T>& operator=(const abc<T>& other)
-    {
-        _values = other._values;
-        return *this;
-    }
-
-    constexpr abc<T>& operator=(abc<T>&& other)
-    {
-        _values = std::move(other._values);
-        return *this;
     }
 
     constexpr T& operator[](size_t idx) { return _values[idx]; }
