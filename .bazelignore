@@ -1,2 +1,3 @@
 build-host
 build
+.bazel-root

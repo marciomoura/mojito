@@ -1,5 +1,9 @@
+# Name of the workflow that appears in GitHub Actions
 name: CI
 
+# Workflow version: 1.0 - Initial mojito CI
+
+# Define when this workflow will run
 on:
   pull_request:
   push:
@@ -7,20 +11,99 @@ on:
   workflow_dispatch:
 
 jobs:
-  bazel:
-    name: Bazel Build & Test
+  # Job 1: Build
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [clang, gcc]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Free Disk Space
+      - name: Cache APT packages
+        uses: awalsh128/cache-apt-pkgs-action@v1.4.3
+        with:
+          packages: cmake ninja-build clang gcc g++ ccache mold llvm cppcheck
+          version: 1.0
+
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ runner.os }}-${{ matrix.compiler }}-ccache
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.compiler }}-
+            ${{ runner.os }}-
+          max-size: 500M
+          verbose: 2
+
+      - name: Set compiler variables
         run: |
-          # Free up ~20GB of disk space to ensure LLVM extraction succeeds
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          if [ "${{ matrix.compiler }}" = "clang" ]; then
+            echo "CC=clang" >> $GITHUB_ENV
+            echo "CXX=clang++" >> $GITHUB_ENV
+          else
+            echo "CC=gcc" >> $GITHUB_ENV
+            echo "CXX=g++" >> $GITHUB_ENV
+          fi
+
+      - name: Configure CMake project
+        run: |
+          cmake -G Ninja -B build \
+                -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+                -DCMAKE_C_COMPILER=$CC \
+                -DCMAKE_CXX_COMPILER=$CXX \
+                -DCMAKE_CXX_STANDARD=20 \
+                -DCMAKE_CXX_STANDARD_REQUIRED=ON \
+                -DMOJITO_BUILD_TESTING=ON \
+                -DMOJITO_ENABLE_CCACHE=ON \
+                -DMOJITO_ENABLE_CPPCHECK=ON 
+          echo "=== CMake Configuration Complete ==="
+
+      - name: Build all test targets
+        run: |
+          echo "=== Starting Build at $(date) ==="
+          time cmake --build build --parallel $(nproc) --target mojito_tests
+          echo "=== Build Complete at $(date) ==="
+
+      - name: Upload test binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-binaries-${{ matrix.compiler }}
+          path: |
+            build/bin/mojito_tests
+          retention-days: 3
+          compression-level: 9
+
+  # Job 2: Unit Tests
+  test-unit:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [clang, gcc]
+      fail-fast: false
+    steps:
+      - name: Download test binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: test-binaries-${{ matrix.compiler }}
+          path: build/bin/
+
+      - name: Make binaries executable
+        run: chmod +x build/bin/*
+
+      - name: Run unit tests
+        run: |
+          echo "=== Running Unit Tests with ${{ matrix.compiler }} ==="
+          ./build/bin/mojito_tests --gtest_color=yes
+
+  # Job 3: Bazel Build & Test
+  bazel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Mount Bazel Repository Cache
         uses: actions/cache@v4
@@ -35,38 +118,10 @@ jobs:
         with:
           bazelisk-version: "1.19.0"
 
-      - name: Build and Test
+      - name: Build and Test with Bazel
         run: |
-          # Move output base to current workspace to utilize freed disk space
-          bazel --output_user_root=$GITHUB_WORKSPACE/.bazel-root test //...
-
-  cmake:
-    name: CMake Build & Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake ninja-build clang
-
-      - name: Configure CMake
-        run: |
-          cmake -G Ninja -B build \
-                -DCMAKE_BUILD_TYPE=Release \
-                -DCMAKE_CXX_COMPILER=clang++ \
-                -DMOJITO_BUILD_TESTING=ON
-
-      - name: Build
-        run: cmake --build build --parallel $(nproc)
-
-      - name: Test
-        run: |
-          cd build
-          ctest --output-on-failure
-
+          bazel test //...
+          
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
