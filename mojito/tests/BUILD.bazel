@@ -1,0 +1,20 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "mojito_tests",
+    size = "small",
+    srcs = [
+        "ab_bc_ca_test.cpp",
+        "abc_test.cpp",
+        "alphabeta_test.cpp",
+        "angle_test.cpp",
+        "divisor_test.cpp",
+        "dq_test.cpp",
+        "transform_test.cpp",
+        "units_test.cpp",
+    ],
+    deps = [
+        "//:mojito",
+        "@googletest//:gtest_main",
+    ],
+)

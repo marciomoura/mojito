@@ -28,10 +28,4 @@ vendor/
 *.so
 *.dylib
 
-# Python
-__pycache__/
-*.pyc
 
-# Project specific
-.local
-flash/

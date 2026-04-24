@@ -1,0 +1,8 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "mojito",
+    hdrs = glob(["mojito/include/mojito/*.hpp"]),
+    includes = ["mojito/include"],
+    visibility = ["//visibility:public"],
+)
