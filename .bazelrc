@@ -1,18 +1,3 @@
 # Common flags
 common --color=yes
 common --lockfile_mode=off
-
-# # Default C++ standard for all builds
-# # Use features when possible or per-compiler flags
-# build --cxxopt=-std=c++20
-# build --host_cxxopt=-std=c++20
-
-# # Overrides for Windows (MSVC)
-# # Bazel recognizes --config=windows on Windows environments
-# build:windows --cxxopt=/std:c++20
-# build:windows --host_cxxopt=/std:c++20
-
-# # Disable MSVC warning D9002 (unknown option -std=c++20)
-# # This keeps the output clean on Windows while keeping Unix users happy
-# build:windows --cxxopt=/wd9002
-# build:windows --host_cxxopt=/wd9002
