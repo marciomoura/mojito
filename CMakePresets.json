@@ -11,7 +11,7 @@
                 "MOJITO_BUILD_EXAMPLES": "ON",
                 "MOJITO_ENABLE_CCACHE": "ON"
             },
-            "generator": "Ninja Multi-Config"
+            "generator": "Ninja"
         },
         {
             "name": "host-gcc",

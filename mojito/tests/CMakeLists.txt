@@ -7,7 +7,15 @@ add_executable(mojito::mojito_tests ALIAS ${PROJECT_NAME})
 enable_testing()
 
 # Add test sources
-target_sources(${PROJECT_NAME} PRIVATE angle_test.cpp divisor_test.cpp reference_frame_test.cpp units_test.cpp)
+target_sources(${PROJECT_NAME} PRIVATE 
+    abc_test.cpp 
+    alphabeta_test.cpp 
+    dq_test.cpp 
+    ab_bc_ca_test.cpp 
+    transform_test.cpp
+    angle_test.cpp 
+    divisor_test.cpp 
+    units_test.cpp)
 
 # Enable cppcheck if available
 if(CMAKE_CXX_CPPCHECK)
