@@ -9,9 +9,5 @@ common --repository_cache=~/.bazel-repo-cache
 # Output management
 build --verbose_failures
 
-# Platform Aliases
-build:arm64 --platforms=//platforms:linux_aarch64
-build:m4    --platforms=//platforms:cortex_m4
-
 # Test configuration
 test --test_output=errors
