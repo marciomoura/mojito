@@ -26,7 +26,9 @@ using ::mojito::is_coordinate_frame_v;
 // units.hpp
 using ::mojito::dimension;
 using ::mojito::si;
+using ::mojito::default_base;
 using ::mojito::per_unit;
+using ::mojito::is_per_unit_v;
 using ::mojito::percent;
 using ::mojito::quantity;
 using ::mojito::is_quantity_v;
@@ -120,6 +122,31 @@ using ::mojito::flux_density_pu_t;
 using ::mojito::angle_pu_t;
 using ::mojito::damping_coefficient_pu_t;
 using ::mojito::inertia_constant_pu_t;
+
+// Custom Per-Unit Templated Aliases
+using ::mojito::length_cus_pu_t;
+using ::mojito::mass_cus_pu_t;
+using ::mojito::duration_cus_pu_t;
+using ::mojito::speed_cus_pu_t;
+using ::mojito::acceleration_cus_pu_t;
+using ::mojito::frequency_cus_pu_t;
+using ::mojito::angular_frequency_cus_pu_t;
+using ::mojito::force_cus_pu_t;
+using ::mojito::torque_cus_pu_t;
+using ::mojito::moment_of_inertia_cus_pu_t;
+using ::mojito::voltage_cus_pu_t;
+using ::mojito::current_cus_pu_t;
+using ::mojito::power_cus_pu_t;
+using ::mojito::resistance_cus_pu_t;
+using ::mojito::impedance_cus_pu_t;
+using ::mojito::capacitance_cus_pu_t;
+using ::mojito::inductance_cus_pu_t;
+using ::mojito::flux_cus_pu_t;
+using ::mojito::magnetic_field_strength_cus_pu_t;
+using ::mojito::flux_density_cus_pu_t;
+using ::mojito::angle_cus_pu_t;
+using ::mojito::damping_coefficient_cus_pu_t;
+using ::mojito::inertia_constant_cus_pu_t;
 
 // Percent Units
 using ::mojito::length_percent_t;

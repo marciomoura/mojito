@@ -7,26 +7,26 @@
 namespace mojito {
 
 // SI <-> Per-Unit
-template <typename Dim>
-constexpr auto to_si(const quantity<Dim, per_unit>& pu_quantity, const quantity<Dim, si>& base_quantity)
+template <typename Dim, typename Base>
+constexpr auto to_si(const quantity<Dim, per_unit<Base>>& pu_quantity, const quantity<Dim, si>& base_quantity)
 {
     return quantity<Dim, si>(pu_quantity.value() * base_quantity.value());
 }
 
-template <typename Dim>
+template <typename Base = default_base, typename Dim>
 constexpr auto to_pu(const quantity<Dim, si>& si_quantity, const quantity<Dim, si>& base_quantity)
 {
-    return quantity<Dim, per_unit>(si_quantity.value() / base_quantity.value());
+    return quantity<Dim, per_unit<Base>>(si_quantity.value() / base_quantity.value());
 }
 
-template <typename Dim>
+template <typename Base = default_base, typename Dim>
 constexpr auto to_pu(const quantity<Dim, si>& si_quantity, const divisor<quantity<Dim, si>>& divisor)
 {
-    return quantity<Dim, per_unit>(si_quantity.value() * divisor.reciprocal());
+    return quantity<Dim, per_unit<Base>>(si_quantity.value() * divisor.reciprocal());
 }
 
-template <typename Dim>
-constexpr auto to_si(const quantity<Dim, per_unit>& pu_quantity, const divisor<quantity<Dim, si>>& divisor)
+template <typename Dim, typename Base>
+constexpr auto to_si(const quantity<Dim, per_unit<Base>>& pu_quantity, const divisor<quantity<Dim, si>>& divisor)
 {
     return quantity<Dim, si>(pu_quantity.value() * divisor.value().value());
 }
@@ -45,24 +45,24 @@ constexpr auto to_percent(const quantity<Dim, si>& si_quantity, const quantity<D
 }
 
 // Per-Unit <-> Percent
-template <typename Dim>
-constexpr auto to_percent(const quantity<Dim, per_unit>& pu_quantity)
+template <typename Dim, typename Base>
+constexpr auto to_percent(const quantity<Dim, per_unit<Base>>& pu_quantity)
 {
     return quantity<Dim, percent>(pu_quantity.value() * real_t{100.0});
 }
 
-template <typename Dim>
+template <typename Base = default_base, typename Dim>
 constexpr auto to_pu(const quantity<Dim, percent>& percent_quantity)
 {
-    return quantity<Dim, per_unit>(percent_quantity.value() / real_t{100.0});
+    return quantity<Dim, per_unit<Base>>(percent_quantity.value() / real_t{100.0});
 }
 
 // Casting
-template <typename NewType, typename OldDim>
-constexpr quantity<typename NewType::dimension, per_unit> per_unit_cast(const quantity<OldDim, per_unit>& q)
+template <typename NewType, typename OldDim, typename OldBase>
+constexpr auto per_unit_cast(const quantity<OldDim, per_unit<OldBase>>& q)
 {
-    static_assert(std::is_same_v<typename NewType::system, per_unit>, "NewType must be a per-unit quantity type.");
-    return quantity<typename NewType::dimension, per_unit>(q.value());
+    static_assert(is_per_unit_v<typename NewType::system>, "NewType must be a per-unit quantity type.");
+    return quantity<typename NewType::dimension, typename NewType::system>(q.value());
 }
 
 template <typename NewType, typename OldDim>
