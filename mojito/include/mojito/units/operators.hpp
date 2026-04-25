@@ -2,8 +2,11 @@
 
 #include <cmath>
 #include <type_traits>
-#include "quantity.hpp"
+
+#include "../types.hpp"
 #include "dimensions.hpp"
+#include "quantity.hpp"
+
 
 namespace mojito {
 
