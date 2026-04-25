@@ -12,6 +12,11 @@ template <typename T = real_t>
 struct ab_bc_ca {
     using value_type = T;
 
+    static constexpr ab_bc_ca<T> from_real(real_t ab, real_t bc, real_t ca)
+    {
+        return ab_bc_ca<T>{T{ab}, T{bc}, T{ca}};
+    }
+
     constexpr ab_bc_ca() = default;
     constexpr ab_bc_ca(T v_ab, T v_bc, T v_ca) : _ab(v_ab), _bc(v_bc), _ca(v_ca) {}
 

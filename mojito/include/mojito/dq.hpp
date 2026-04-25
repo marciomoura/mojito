@@ -24,6 +24,11 @@ public:
     using iterator = typename std::array<T, 3>::iterator;
     using const_iterator = typename std::array<T, 3>::const_iterator;
 
+    static constexpr dq<T> from_real(real_t d, real_t q)
+    {
+        return dq<T>{T{d}, T{q}};
+    }
+
     constexpr dq() = default;
     constexpr dq(const std::array<T, 2>& values) : _values(values) {}
     constexpr dq(T d, T q) : _values{d, q} {}
