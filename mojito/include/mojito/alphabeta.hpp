@@ -24,6 +24,11 @@ public:
     using iterator = typename std::array<T, 3>::iterator;
     using const_iterator = typename std::array<T, 3>::const_iterator;
 
+    static constexpr alphabeta<T> from_real(real_t alpha, real_t beta)
+    {
+        return alphabeta<T>{T{alpha}, T{beta}};
+    }
+
     constexpr alphabeta() = default;
     constexpr alphabeta(const std::array<T, 2>& values) : _values(values) {}
     constexpr alphabeta(T alpha, T beta) : _values{alpha, beta} {}

@@ -23,6 +23,11 @@ public:
     using iterator = typename std::array<T, 3>::iterator;
     using const_iterator = typename std::array<T, 3>::const_iterator;
 
+    static constexpr abc<T> from_real(real_t a, real_t b, real_t c)
+    {
+        return abc<T>{T{a}, T{b}, T{c}};
+    }
+
     constexpr abc() = default;
     constexpr abc(const std::array<T, 3>& values) : _values(values) {}
     constexpr abc(std::array<T, 3>&& values) : _values(std::move(values)) {}
