@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
+
 #include <type_traits>
 
 #include "mojito/mojito.hpp"
+
 
 namespace {
 
@@ -42,7 +44,7 @@ TEST(UnitsTest, QuantityCreationAndValueAccess)
 
     EXPECT_NEAR(distance.value(), real_t{10.5}, k_epsilon);
     EXPECT_NEAR(weight.value(), real_t{2.5}, k_epsilon);
-    
+
     // Test implicit conversion to real_t
     real_t raw_dist = distance;
     EXPECT_NEAR(raw_dist, real_t{10.5}, k_epsilon);
@@ -71,7 +73,7 @@ TEST(UnitsTest, BasicArithmetic)
     EXPECT_NEAR((d1 * 2.0).value(), 20.0, k_epsilon);
     EXPECT_NEAR((2.0 * d1).value(), 20.0, k_epsilon);
     EXPECT_NEAR((d1 / 2.0).value(), 5.0, k_epsilon);
-    
+
     auto inv_d = 1.0 / d1;
     static_assert(std::is_same_v<typename decltype(inv_d)::dimension, dimension<-1, 0, 0, 0, 0, 0, 0>>);
     EXPECT_NEAR(inv_d.value(), 0.1, k_epsilon);
@@ -80,16 +82,16 @@ TEST(UnitsTest, BasicArithmetic)
 TEST(UnitsTest, CompoundAssignments)
 {
     length_t d(10.0);
-    
+
     d += length_t(5.0);
     EXPECT_NEAR(d.value(), 15.0, k_epsilon);
-    
+
     d -= length_t(3.0);
     EXPECT_NEAR(d.value(), 12.0, k_epsilon);
-    
+
     d *= 2.0;
     EXPECT_NEAR(d.value(), 24.0, k_epsilon);
-    
+
     d /= 4.0;
     EXPECT_NEAR(d.value(), 6.0, k_epsilon);
 }
@@ -179,10 +181,10 @@ TEST(UnitsTest, CustomPerUnitBases)
     EXPECT_NEAR(v_g.value(), 0.5, k_epsilon);
 
     static_assert(!std::is_same_v<decltype(v_m), decltype(v_g)>);
-    
+
     // Casting between PU systems
     auto v_m_as_g = per_unit_cast<voltage_custom_pu_t<grid_base>>(v_m);
-    EXPECT_NEAR(v_m_as_g.value(), 1.0, k_epsilon); // Note: cast just copies value, doesn't re-scale
+    EXPECT_NEAR(v_m_as_g.value(), 1.0, k_epsilon);  // Note: cast just copies value, doesn't re-scale
 }
 
 TEST(UnitsTest, PercentSystem)
@@ -205,7 +207,7 @@ TEST(UnitsTest, PercentSystem)
 
     auto pu_from_pct = to_pu(pct_from_pu);
     EXPECT_NEAR(pu_from_pct.value(), 0.5, k_epsilon);
-    
+
     // Percent Cast
     using duty_cycle_t = quantity<dimensionless_dim, percent>;
     auto d = percent_cast<duty_cycle_t>(pct_v);
@@ -238,28 +240,29 @@ TEST(UnitsTest, PhysicalLaws)
 TEST(UnitsTest, CoordinateFrameFromReal)
 {
     // abc
-    auto v_abc = mojito::abc<voltage_t>::from_real(1.0, 2.0, 3.0);
+    const auto v_abc = abc<voltage_t>::from_real(1.0, 2.0, 3.0);
     EXPECT_NEAR(v_abc.a().value(), 1.0, k_epsilon);
     EXPECT_NEAR(v_abc.b().value(), 2.0, k_epsilon);
     EXPECT_NEAR(v_abc.c().value(), 3.0, k_epsilon);
     static_assert(std::is_same_v<decltype(v_abc.a()), voltage_t>);
 
     // alphabeta
-    auto i_ab = mojito::alphabeta<current_pu_t>::from_real(0.8, 0.1);
+    const auto i_ab = alphabeta<current_pu_t>::from_real(0.8, 0.1);
     EXPECT_NEAR(i_ab.alpha().value(), 0.8, k_epsilon);
     EXPECT_NEAR(i_ab.beta().value(), 0.1, k_epsilon);
     static_assert(std::is_same_v<decltype(i_ab.alpha()), current_pu_t>);
 
     // dq
-    auto i_dq = mojito::dq<current_pu_t>::from_real(0.7, -0.2);
+    const auto i_dq = dq<current_pu_t>::from_real(0.7, -0.2);
     EXPECT_NEAR(i_dq.d().value(), 0.7, k_epsilon);
     EXPECT_NEAR(i_dq.q().value(), -0.2, k_epsilon);
     static_assert(std::is_same_v<decltype(i_dq.d()), current_pu_t>);
 
     // ab_bc_ca
-    auto v_line = mojito::ab_bc_ca<voltage_t>::from_real(400.0, 400.0, -800.0);
+    const auto v_line = ab_bc_ca<voltage_t>::from_real(400.0, 400.0, -800.0);
     EXPECT_NEAR(v_line.ab().value(), 400.0, k_epsilon);
     static_assert(std::is_same_v<decltype(v_line.ab()), voltage_t>);
 }
+
 
 }  // namespace
