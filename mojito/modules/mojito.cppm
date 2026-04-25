@@ -27,6 +27,7 @@ using ::mojito::is_coordinate_frame_v;
 using ::mojito::dimension;
 using ::mojito::si;
 using ::mojito::per_unit;
+using ::mojito::percent;
 using ::mojito::quantity;
 using ::mojito::is_quantity_v;
 using ::mojito::use_epsilon_comparison_v;
@@ -120,6 +121,31 @@ using ::mojito::angle_pu_t;
 using ::mojito::damping_coefficient_pu_t;
 using ::mojito::inertia_constant_pu_t;
 
+// Percent Units
+using ::mojito::length_percent_t;
+using ::mojito::mass_percent_t;
+using ::mojito::duration_percent_t;
+using ::mojito::speed_percent_t;
+using ::mojito::acceleration_percent_t;
+using ::mojito::frequency_percent_t;
+using ::mojito::angular_frequency_percent_t;
+using ::mojito::force_percent_t;
+using ::mojito::torque_percent_t;
+using ::mojito::moment_of_inertia_percent_t;
+using ::mojito::voltage_percent_t;
+using ::mojito::current_percent_t;
+using ::mojito::power_percent_t;
+using ::mojito::resistance_percent_t;
+using ::mojito::impedance_percent_t;
+using ::mojito::capacitance_percent_t;
+using ::mojito::inductance_percent_t;
+using ::mojito::flux_percent_t;
+using ::mojito::magnetic_field_strength_percent_t;
+using ::mojito::flux_density_percent_t;
+using ::mojito::angle_percent_t;
+using ::mojito::damping_coefficient_percent_t;
+using ::mojito::inertia_constant_percent_t;
+
 // divisor.hpp
 using ::mojito::divisor;
 
@@ -148,6 +174,7 @@ using ::mojito::make_dq;
 using ::mojito::cross_product;
 using ::mojito::to_si;
 using ::mojito::to_pu;
+using ::mojito::to_percent;
 using ::mojito::to_dimension_abc;
 using ::mojito::to_dimension_alphabeta;
 using ::mojito::to_dimension_dq;
@@ -157,5 +184,7 @@ using ::mojito::to_dimensionless_dq;
 using ::mojito::sum;
 using ::mojito::max;
 using ::mojito::min;
+using ::mojito::per_unit_cast;
+using ::mojito::percent_cast;
 
 } // namespace mojito

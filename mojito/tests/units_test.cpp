@@ -108,4 +108,40 @@ TEST(UnitsTest, MechanicalLaws)
     static_assert(std::is_same_v<decltype(f), force_t>);
 }
 
+TEST(UnitsTest, PercentSystem)
+{
+    voltage_percent_t v_pct(real_t{50.0});
+    EXPECT_NEAR(v_pct.value(), real_t{50.0}, k_epsilon);
+
+    // Arithmetic
+    auto v_pct2 = v_pct * real_t{2.0};
+    EXPECT_NEAR(v_pct2.value(), real_t{100.0}, k_epsilon);
+
+    auto v_pct3 = v_pct + voltage_percent_t(real_t{10.0});
+    EXPECT_NEAR(v_pct3.value(), real_t{60.0}, k_epsilon);
+
+    // Conversions
+    voltage_t v_si(real_t{115.0});
+    voltage_t v_base(real_t{230.0});
+
+    auto v_pct_conv = to_percent(v_si, v_base);
+    EXPECT_NEAR(v_pct_conv.value(), real_t{50.0}, k_epsilon);
+
+    auto v_si_back = to_si(v_pct_conv, v_base);
+    EXPECT_NEAR(v_si_back.value(), real_t{115.0}, k_epsilon);
+
+    voltage_pu_t v_pu(real_t{0.5});
+    auto v_pct_from_pu = to_percent(v_pu);
+    EXPECT_NEAR(v_pct_from_pu.value(), real_t{50.0}, k_epsilon);
+
+    auto v_pu_back = to_pu(v_pct_from_pu);
+    EXPECT_NEAR(v_pu_back.value(), real_t{0.5}, k_epsilon);
+
+    // Casting
+    using duty_cycle_percent_t = quantity<dimensionless_dim, percent>;
+    duty_cycle_percent_t duty(real_t{75.0});
+    auto angle_pct = percent_cast<angle_percent_t>(duty);
+    EXPECT_NEAR(angle_pct.value(), real_t{75.0}, k_epsilon);
+}
+
 }  // namespace
