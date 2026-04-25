@@ -3,7 +3,9 @@
 #include <cassert>
 #include <cmath>
 #include <cstdint>
+#if MOJITO_HAS_IOSTREAM
 #include <ostream>
+#endif
 
 #include "constants.hpp"
 #include "types.hpp"
@@ -202,10 +204,12 @@ constexpr angle_wrapped operator+(const angle_t& angle_value, const angle_wrappe
     return angle + angle_value;
 }
 
+#if MOJITO_HAS_IOSTREAM
 inline std::ostream& operator<<(std::ostream& os, const angle_wrapped& angle)
 {
     os << angle.get_radians();
     return os;
 }
+#endif
 
 }  // namespace mojito

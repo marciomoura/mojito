@@ -8,4 +8,10 @@ using real_t = double;
 using real_t = float;
 #endif
 
+#if defined(MOJITO_NO_IOSTREAM)
+#define MOJITO_HAS_IOSTREAM 0
+#else
+#define MOJITO_HAS_IOSTREAM 1
+#endif
+
 }  // namespace mojito

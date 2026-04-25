@@ -42,7 +42,9 @@ using ::mojito::operator<;
 using ::mojito::operator>;
 using ::mojito::operator<=;
 using ::mojito::operator>=;
+#if MOJITO_HAS_IOSTREAM
 using ::mojito::operator<<;
+#endif
 
 // Dimensions
 using ::mojito::dimensionless_dim;

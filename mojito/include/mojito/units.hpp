@@ -2,8 +2,10 @@
 
 #include <algorithm>
 #include <cmath>
+#if MOJITO_HAS_IOSTREAM
 #include <ostream>
-#include <string>
+#endif
+#include <string_view>
 #include <type_traits>
 
 #include "divisor.hpp"
@@ -337,19 +339,22 @@ constexpr auto to_si(const quantity<Dim, per_unit>& pu_quantity, const divisor<q
 
 namespace internal {
 template <typename Dim>
-std::string get_unit_symbol()
+constexpr std::string_view get_unit_symbol()
 {
     if constexpr (std::is_same_v<Dim, dimensionless_dim>) return "";
     else if constexpr (std::is_same_v<Dim, length_dim>) return " m";
     else if constexpr (std::is_same_v<Dim, mass_dim>) return " kg";
     else if constexpr (std::is_same_v<Dim, time_dim>) return " s";
     else if constexpr (std::is_same_v<Dim, current_dim>) return " A";
+    else if constexpr (std::is_same_v<Dim, area_dim>) return " m^2";
+    else if constexpr (std::is_same_v<Dim, volume_dim>) return " m^3";
     else if constexpr (std::is_same_v<Dim, speed_dim>) return " m/s";
     else if constexpr (std::is_same_v<Dim, acceleration_dim>) return " m/s^2";
     else if constexpr (std::is_same_v<Dim, frequency_dim>) return " Hz";
     else if constexpr (std::is_same_v<Dim, force_dim>) return " N";
     else if constexpr (std::is_same_v<Dim, torque_dim>) return " Nm";
     else if constexpr (std::is_same_v<Dim, moment_of_inertia_dim>) return " kg*m^2";
+    else if constexpr (std::is_same_v<Dim, charge_dim>) return " C";
     else if constexpr (std::is_same_v<Dim, voltage_dim>) return " V";
     else if constexpr (std::is_same_v<Dim, power_dim>) return " W";
     else if constexpr (std::is_same_v<Dim, resistance_dim>) return " Ohm";
@@ -362,6 +367,7 @@ std::string get_unit_symbol()
 }
 }  // namespace internal
 
+#if MOJITO_HAS_IOSTREAM
 template <typename Dim, typename UnitSystem>
 std::ostream& operator<<(std::ostream& os, const quantity<Dim, UnitSystem>& q)
 {
@@ -370,6 +376,7 @@ std::ostream& operator<<(std::ostream& os, const quantity<Dim, UnitSystem>& q)
     else if constexpr (std::is_same_v<UnitSystem, per_unit>) os << " pu";
     return os;
 }
+#endif
 
 template <typename NewType, typename OldDim>
 constexpr quantity<typename NewType::dimension, per_unit> per_unit_cast(const quantity<OldDim, per_unit>& q)

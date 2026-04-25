@@ -1,6 +1,8 @@
 #pragma once
 
+#if MOJITO_HAS_IOSTREAM
 #include <ostream>
+#endif
 #include <type_traits>
 
 #include "types.hpp"
@@ -78,11 +80,13 @@ constexpr auto operator/(const divisor<T1>& lhs, const divisor<T2>& rhs)
     return divisor<decltype(new_val)>(new_val);
 }
 
+#if MOJITO_HAS_IOSTREAM
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const divisor<T>& d)
 {
     os << d.value();
     return os;
 }
+#endif
 
 }  // namespace mojito

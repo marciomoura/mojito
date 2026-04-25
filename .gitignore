@@ -19,6 +19,7 @@ vendor/
 # Compiler and analysis
 .cache/
 .ccache*/
+Testing/
 *.bak
 *.pdb
 *.obj
