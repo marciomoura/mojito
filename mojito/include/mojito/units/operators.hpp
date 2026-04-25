@@ -47,6 +47,25 @@ constexpr auto sqrt(const quantity<D, S>& q)
 }
 
 template <typename D, typename S>
+constexpr auto cbrt(const quantity<D, S>& q)
+{
+    using result_dim = typename root_dimension<D, 3>::type;
+    return quantity<result_dim, S>(std::cbrt(q.value()));
+}
+
+template <typename D, typename S>
+constexpr auto hypot(const quantity<D, S>& x, const quantity<D, S>& y)
+{
+    return quantity<D, S>(std::hypot(x.value(), y.value()));
+}
+
+template <typename D, typename S>
+constexpr auto atan2(const quantity<D, S>& y, const quantity<D, S>& x)
+{
+    return quantity<dimensionless_dim, S>(std::atan2(y.value(), x.value()));
+}
+
+template <typename D, typename S>
 constexpr auto abs(const quantity<D, S>& q)
 {
     return quantity<D, S>(std::abs(q.value()));
@@ -123,6 +142,62 @@ template <typename D, typename S>
 constexpr bool operator>=(const quantity<D, S>& lhs, const quantity<D, S>& rhs)
 {
     return !(lhs < rhs);
+}
+
+// Dimensionless Trigonometry
+template <typename S>
+auto sin(const quantity<dimensionless_dim, S>& q)
+{
+    return quantity<dimensionless_dim, S>(std::sin(q.value()));
+}
+
+template <typename S>
+auto cos(const quantity<dimensionless_dim, S>& q)
+{
+    return quantity<dimensionless_dim, S>(std::cos(q.value()));
+}
+
+template <typename S>
+auto tan(const quantity<dimensionless_dim, S>& q)
+{
+    return quantity<dimensionless_dim, S>(std::tan(q.value()));
+}
+
+// Comparison with zero
+template <typename D, typename S, typename Arithmetic, std::enable_if_t<std::is_arithmetic_v<Arithmetic>, int> = 0>
+constexpr bool operator==(const quantity<D, S>& q, Arithmetic val)
+{
+    return q.value() == static_cast<real_t>(val);
+}
+
+template <typename D, typename S, typename Arithmetic, std::enable_if_t<std::is_arithmetic_v<Arithmetic>, int> = 0>
+constexpr bool operator!=(const quantity<D, S>& q, Arithmetic val)
+{
+    return !(q == val);
+}
+
+template <typename D, typename S, typename Arithmetic, std::enable_if_t<std::is_arithmetic_v<Arithmetic>, int> = 0>
+constexpr bool operator<(const quantity<D, S>& q, Arithmetic val)
+{
+    return q.value() < static_cast<real_t>(val);
+}
+
+template <typename D, typename S, typename Arithmetic, std::enable_if_t<std::is_arithmetic_v<Arithmetic>, int> = 0>
+constexpr bool operator>(const quantity<D, S>& q, Arithmetic val)
+{
+    return q.value() > static_cast<real_t>(val);
+}
+
+template <typename D, typename S, typename Arithmetic, std::enable_if_t<std::is_arithmetic_v<Arithmetic>, int> = 0>
+constexpr bool operator<=(const quantity<D, S>& q, Arithmetic val)
+{
+    return q.value() <= static_cast<real_t>(val);
+}
+
+template <typename D, typename S, typename Arithmetic, std::enable_if_t<std::is_arithmetic_v<Arithmetic>, int> = 0>
+constexpr bool operator>=(const quantity<D, S>& q, Arithmetic val)
+{
+    return q.value() >= static_cast<real_t>(val);
 }
 
 }  // namespace mojito
