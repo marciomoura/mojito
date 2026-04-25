@@ -184,4 +184,54 @@ TEST(UnitsTest, CustomPerUnitSystem)
     SUCCEED() << "Verified: Different custom per-unit bases are type-safe and cannot be mixed.";
 }
 
+TEST(UnitsTest, ExtendedOperatorsAndMath)
+{
+    // Compound Assignment
+    voltage_t v1(real_t{100.0});
+    v1 += voltage_t(real_t{20.0});
+    EXPECT_NEAR(v1.value(), real_t{120.0}, k_epsilon);
+
+    v1 -= voltage_t(real_t{30.0});
+    EXPECT_NEAR(v1.value(), real_t{90.0}, k_epsilon);
+
+    v1 *= 2.0;
+    EXPECT_NEAR(v1.value(), real_t{180.0}, k_epsilon);
+
+    v1 /= 3.0;
+    EXPECT_NEAR(v1.value(), real_t{60.0}, k_epsilon);
+
+    // Math Functions
+    current_t id(real_t{3.0});
+    current_t iq(real_t{4.0});
+    auto imag = hypot(id, iq);
+    EXPECT_NEAR(imag.value(), real_t{5.0}, k_epsilon);
+    static_assert(std::is_same_v<decltype(imag), current_t>);
+
+    auto theta = atan2(iq, id);
+    EXPECT_NEAR(theta.value(), std::atan2(4.0, 3.0), k_epsilon);
+    static_assert(std::is_same_v<decltype(theta), angle_t>);
+
+    length_t l(real_t{27.0});
+    auto vol = l * l * l; // volume_dim
+    auto side = cbrt(vol);
+    EXPECT_NEAR(side.value(), real_t{27.0}, k_epsilon);
+    static_assert(std::is_same_v<decltype(side), length_t>);
+
+    // Dimensionless Trig
+    angle_t a(pi / real_t{2.0});
+    EXPECT_NEAR(sin(a).value(), real_t{1.0}, k_epsilon);
+    EXPECT_NEAR(cos(a).value(), real_t{0.0}, k_epsilon);
+
+    // Comparison with zero
+    voltage_t v_zero(real_t{0.0});
+    EXPECT_TRUE(v_zero == 0);
+    EXPECT_TRUE(v_zero == 0.0);
+    EXPECT_FALSE(v_zero != 0);
+
+    voltage_t v_pos(real_t{10.0});
+    EXPECT_TRUE(v_pos > 0);
+    EXPECT_TRUE(v_pos >= 0);
+    EXPECT_FALSE(v_pos < 0);
+}
+
 }  // namespace

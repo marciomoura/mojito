@@ -34,6 +34,32 @@ public:
 
     constexpr real_t value() const { return _value; }
 
+    constexpr quantity& operator+=(const quantity& rhs)
+    {
+        _value += rhs._value;
+        return *this;
+    }
+
+    constexpr quantity& operator-=(const quantity& rhs)
+    {
+        _value -= rhs._value;
+        return *this;
+    }
+
+    template <typename Scalar, std::enable_if_t<std::is_arithmetic_v<Scalar>, int> = 0>
+    constexpr quantity& operator*=(const Scalar& s)
+    {
+        _value *= static_cast<real_t>(s);
+        return *this;
+    }
+
+    template <typename Scalar, std::enable_if_t<std::is_arithmetic_v<Scalar>, int> = 0>
+    constexpr quantity& operator/=(const Scalar& s)
+    {
+        _value /= static_cast<real_t>(s);
+        return *this;
+    }
+
     operator real_t() const { return _value; }
 
 private:
