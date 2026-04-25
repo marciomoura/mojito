@@ -1,4 +1,7 @@
 #include <gtest/gtest.h>
+#include <array>
+#include <cstddef>
+#include <type_traits>
 #include "mojito/mojito.hpp"
 
 namespace {
