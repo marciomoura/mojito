@@ -1,8 +1,7 @@
 #include <gtest/gtest.h>
 #include <type_traits>
 
-#include "mojito/constants.hpp"
-#include "mojito/units.hpp"
+#include "mojito/mojito.hpp"
 
 namespace {
 
@@ -234,6 +233,33 @@ TEST(UnitsTest, PhysicalLaws)
     // Energy dimension: M * (L/T)^2 = M * L^2 * T^-2 (Same as torque/work)
     static_assert(std::is_same_v<typename decltype(e)::dimension, torque_dim>);
     EXPECT_NEAR(e.value(), 20.0, k_epsilon);
+}
+
+TEST(UnitsTest, CoordinateFrameFromReal)
+{
+    // abc
+    auto v_abc = mojito::abc<voltage_t>::from_real(1.0, 2.0, 3.0);
+    EXPECT_NEAR(v_abc.a().value(), 1.0, k_epsilon);
+    EXPECT_NEAR(v_abc.b().value(), 2.0, k_epsilon);
+    EXPECT_NEAR(v_abc.c().value(), 3.0, k_epsilon);
+    static_assert(std::is_same_v<decltype(v_abc.a()), voltage_t>);
+
+    // alphabeta
+    auto i_ab = mojito::alphabeta<current_pu_t>::from_real(0.8, 0.1);
+    EXPECT_NEAR(i_ab.alpha().value(), 0.8, k_epsilon);
+    EXPECT_NEAR(i_ab.beta().value(), 0.1, k_epsilon);
+    static_assert(std::is_same_v<decltype(i_ab.alpha()), current_pu_t>);
+
+    // dq
+    auto i_dq = mojito::dq<current_pu_t>::from_real(0.7, -0.2);
+    EXPECT_NEAR(i_dq.d().value(), 0.7, k_epsilon);
+    EXPECT_NEAR(i_dq.q().value(), -0.2, k_epsilon);
+    static_assert(std::is_same_v<decltype(i_dq.d()), current_pu_t>);
+
+    // ab_bc_ca
+    auto v_line = mojito::ab_bc_ca<voltage_t>::from_real(400.0, 400.0, -800.0);
+    EXPECT_NEAR(v_line.ab().value(), 400.0, k_epsilon);
+    static_assert(std::is_same_v<decltype(v_line.ab()), voltage_t>);
 }
 
 }  // namespace
