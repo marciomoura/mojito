@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <cmath>
 #include "mojito/mojito.hpp"
 
 namespace {
