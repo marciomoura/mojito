@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../types.hpp"
 #include <string_view>
 #if MOJITO_HAS_IOSTREAM
 #include <ostream>
