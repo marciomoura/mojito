@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <type_traits>
 
 #include "mojito/divisor.hpp"
 #include "mojito/units.hpp"

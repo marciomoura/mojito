@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include <array>
+#include <cstddef>
 #include "mojito/mojito.hpp"
 
 namespace {
