@@ -1,91 +1,112 @@
-# Mojito
+# 🍸 Mojito
 
-A modular C++ library for units and math, supporting both header-only and C++20 modules usage.
+A modular, high-performance C++ library for electrical engineering coordinate transforms and physical quantities. Mojito provides a type-safe, unit-aware framework for working with `abc`, `αβ`, and `dq` frames, supporting both classic header-only integration and modern C++20 modules.
 
-## Compiling the Project
+## ✨ Features
 
-This project uses **CMake Presets** to simplify the build process across different environments.
+- **Type-Safe Quantities:** Prevents accidental mixing of different units (e.g., adding Voltage to Current).
+- **Coordinate Transforms:** Robust implementations of Clarke, Park, and Line-to-Line transforms.
+- **Per-Unit System:** Seamless conversion between SI units and Per-Unit values.
+- **Hybrid Integration:** Use it as a header-only library or as a compiled C++20 module.
+- **Multi-Build Support:** First-class support for both CMake and Bazel.
 
-### Prerequisites
+---
 
-- **CMake** (version 3.28 or higher required for C++20 module support)
-- **Ninja** (recommended generator)
-- **GCC** (version 15.1+ recommended) or **Clang**
+## 🚀 How to use in your CMake project
 
-### 1. Configuration
+The easiest way to integrate Mojito into your own project is using `FetchContent`.
 
-To configure the project using the default GCC preset, run the following from the root directory:
+### 1. Add to your `CMakeLists.txt`
+
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(
+    mojito
+    GIT_REPOSITORY https://github.com/marciomoura/mojito.git
+    GIT_TAG        main # or a specific commit/tag
+)
+
+FetchContent_MakeAvailable(mojito)
+
+# Link against the library
+add_executable(my_app main.cpp)
+target_link_libraries(my_app PRIVATE mojito::mojito)
+```
+
+### 2. Basic Usage Example
+
+```cpp
+#include <mojito/mojito.hpp>
+#include <iostream>
+
+using namespace mojito;
+
+int main() {
+    // Define a 100V peak, 0 degree phase voltage
+    auto voltage_abc = make_abc(voltage_t{100.0}, angle_wrapped{0.0});
+
+    // Convert to αβ frame (Clarke Transform)
+    auto voltage_ab = to_alphabeta(voltage_abc);
+
+    std::cout << "Alpha: " << voltage_ab.alpha().value() << " V\n";
+    std::cout << "Beta:  " << voltage_ab.beta().value() << " V\n";
+
+    return 0;
+}
+```
+
+---
+
+## 🛠️ Development & Compiling
+
+### CMake Build
+
+This project uses **CMake Presets** to simplify the build process.
+
+- **Prerequisites:** CMake 3.28+, Ninja, GCC 15.1+ or Clang 16+.
 
 ```powershell
+# 1. Configure
 cmake --preset host-gcc
+
+# 2. Build everything
+cmake --build --preset host-gcc-debug
+
+# 3. Run Tests
+ctest --preset host-gcc-test
 ```
 
-This will create the `build-host` directory and prepare the build system.
+### Bazel Build
 
-### 2. Building
+Mojito supports Bazel (version 7.4.1+).
 
-You can build all targets or specific components using the following build presets:
-
-*   **Build everything** (Library, Module, Tests, and Examples):
-    ```powershell
-    cmake --build --preset host-gcc-debug
-    ```
-
-*   **Build specific targets**:
-    ```powershell
-    # Build only the C++20 Module library
-    cmake --build --preset host-gcc-debug --target mojito_module
-
-    # Build only the module usage example
-    cmake --build --preset host-gcc-debug --target example_module_usage
-    ```
-
-### 3. Running Tests and Examples
-
-After building, binaries are located in the `build-host/bin/` directory.
-
-*   **Run the C++20 Module Example**:
-    ```powershell
-    ./build-host/bin/example_module_usage.exe
-    ```
-
-*   **Run All Unit Tests**:
-    ```powershell
-    ctest --preset host-gcc-test
-    ```
-
-## Compiling with Bazel
-
-The project also supports the **Bazel** build system (version 7.4.1+). We recommend using [Bazelisk](https://github.com/bazelbuild/bazelisk) to automatically manage the correct Bazel version.
-
-### 1. Building the Library
-To build the core `mojito` library:
 ```powershell
+# Build the library
 bazelisk build //mojito:mojito
-```
 
-### 2. Running Tests
-To build and run the entire test suite:
-```powershell
+# Run the test suite
 bazelisk test //mojito/tests:mojito_tests
 ```
 
-### 3. Build Everything
-To build all targets in the workspace:
-```powershell
-bazelisk build //...
-```
+---
 
-## Usage Modes
+## 📦 Usage Modes
 
 ### Header-Only (Interface)
-Link your target against `mojito::mojito` and include the headers:
+Link your target against `mojito::mojito` and include:
 ```cpp
 #include <mojito/mojito.hpp>
 ```
 
 ### C++20 Module
-Link your target against `mojito::module` and import the module:
+Link your target against `mojito::module` and import:
 ```cpp
 import mojito;
 ```
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
