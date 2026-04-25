@@ -1,5 +1,7 @@
 #pragma once
 
+#include "types.hpp"
+
 #include <cassert>
 #include <cmath>
 #include <cstdint>
@@ -8,7 +10,6 @@
 #endif
 
 #include "constants.hpp"
-#include "types.hpp"
 #include "units.hpp"
 
 namespace mojito {

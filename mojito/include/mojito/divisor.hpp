@@ -1,11 +1,11 @@
 #pragma once
 
+#include "types.hpp"
+
 #if MOJITO_HAS_IOSTREAM
 #include <ostream>
 #endif
 #include <type_traits>
-
-#include "types.hpp"
 
 namespace mojito {
 
