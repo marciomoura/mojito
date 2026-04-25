@@ -23,7 +23,14 @@ target_sources(
         include/mojito/transform.hpp
         include/mojito/type_traits.hpp
         include/mojito/types.hpp
-        include/mojito/units.hpp)
+        include/mojito/units.hpp
+        include/mojito/units/conversions.hpp
+        include/mojito/units/dimensions.hpp
+        include/mojito/units/formatting.hpp
+        include/mojito/units/operators.hpp
+        include/mojito/units/quantity.hpp
+        include/mojito/units/systems.hpp
+        include/mojito/units/types.hpp)
 
 target_link_libraries(${PROJECT_NAME} INTERFACE)
 
