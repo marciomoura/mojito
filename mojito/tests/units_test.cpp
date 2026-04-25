@@ -47,7 +47,7 @@ TEST(UnitsTest, SystemDifferentiation)
     voltage_pu_t pu_voltage(real_t{1.0});
 
     static_assert(std::is_same_v<decltype(si_voltage)::system, si>);
-    static_assert(std::is_same_v<decltype(pu_voltage)::system, per_unit>);
+    static_assert(is_per_unit_v<decltype(pu_voltage)::system>);
 }
 
 TEST(UnitsTest, ExplicitConversion)
@@ -142,6 +142,46 @@ TEST(UnitsTest, PercentSystem)
     duty_cycle_percent_t duty(real_t{75.0});
     auto angle_pct = percent_cast<angle_percent_t>(duty);
     EXPECT_NEAR(angle_pct.value(), real_t{75.0}, k_epsilon);
+}
+
+struct machine_base {};
+struct grid_base {};
+
+TEST(UnitsTest, CustomPerUnitSystem)
+{
+    voltage_cus_pu_t<machine_base> v_mach(real_t{1.1});
+    voltage_cus_pu_t<grid_base> v_grid(real_t{1.0});
+
+    EXPECT_NEAR(v_mach.value(), real_t{1.1}, k_epsilon);
+    EXPECT_NEAR(v_grid.value(), real_t{1.0}, k_epsilon);
+
+    // Explicit conversions to/from SI
+    voltage_t v_si(real_t{230.0});
+    voltage_t v_base_mach(real_t{200.0});
+    voltage_t v_base_grid(real_t{230.0});
+
+    auto v_mach_conv = to_pu<machine_base>(v_si, v_base_mach);
+    EXPECT_NEAR(v_mach_conv.value(), real_t{1.15}, k_epsilon);
+    static_assert(std::is_same_v<decltype(v_mach_conv), voltage_cus_pu_t<machine_base>>);
+
+    auto v_grid_conv = to_pu<grid_base>(v_si, v_base_grid);
+    EXPECT_NEAR(v_grid_conv.value(), real_t{1.0}, k_epsilon);
+    static_assert(std::is_same_v<decltype(v_grid_conv), voltage_cus_pu_t<grid_base>>);
+
+    auto v_si_back = to_si(v_mach_conv, v_base_mach);
+    EXPECT_NEAR(v_si_back.value(), real_t{230.0}, k_epsilon);
+
+    // Arithmetic within the same custom system
+    auto v_sum = v_mach + v_mach;
+    EXPECT_NEAR(v_sum.value(), real_t{2.2}, k_epsilon);
+
+    // Cross-system protection (Compile-time check)
+    /*
+    auto v_bad = v_mach + v_grid; // COMPILE ERROR
+    v_mach = v_grid; // COMPILE ERROR
+    v_mach = voltage_pu_t(1.0); // COMPILE ERROR
+    */
+    SUCCEED() << "Verified: Different custom per-unit bases are type-safe and cannot be mixed.";
 }
 
 }  // namespace
