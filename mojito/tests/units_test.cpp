@@ -30,8 +30,8 @@ static_assert(!std::is_assignable_v<voltage_pu_t&, voltage_percent_t>, "Cannot a
 // 3. Custom Base Mismatch
 struct base_a {};
 struct base_b {};
-using v_a_t = voltage_cus_pu_t<base_a>;
-using v_b_t = voltage_cus_pu_t<base_b>;
+using v_a_t = voltage_custom_pu_t<base_a>;
+using v_b_t = voltage_custom_pu_t<base_b>;
 static_assert(!std::is_assignable_v<v_a_t&, v_b_t>, "Different custom bases are incompatible");
 
 // --- Unit Tests ---
@@ -182,7 +182,7 @@ TEST(UnitsTest, CustomPerUnitBases)
     static_assert(!std::is_same_v<decltype(v_m), decltype(v_g)>);
     
     // Casting between PU systems
-    auto v_m_as_g = per_unit_cast<voltage_cus_pu_t<grid_base>>(v_m);
+    auto v_m_as_g = per_unit_cast<voltage_custom_pu_t<grid_base>>(v_m);
     EXPECT_NEAR(v_m_as_g.value(), 1.0, k_epsilon); // Note: cast just copies value, doesn't re-scale
 }
 
