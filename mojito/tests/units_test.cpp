@@ -184,7 +184,23 @@ TEST(UnitsTest, CustomPerUnitBases)
 
     // Casting between PU systems
     auto v_m_as_g = per_unit_cast<voltage_custom_pu_t<grid_base>>(v_m);
-    EXPECT_NEAR(v_m_as_g.value(), 1.0, k_epsilon);  // Note: cast just copies value, doesn't re-scale
+    EXPECT_NEAR(v_m_as_g.value(), real_t{1.0}, k_epsilon);  // Note: cast just copies value, doesn't re-scale
+}
+
+TEST(UnitsTest, ToDifferentPu)
+{
+    struct machine_base {};
+    struct grid_base {};
+
+    voltage_t base_m(100.0);
+    voltage_t base_g(200.0);
+
+    // 1.0 pu in machine base (100V) should be 0.5 pu in grid base (200V)
+    auto v_m = voltage_custom_pu_t<machine_base>(1.0);
+    auto v_g = to_different_pu<grid_base>(v_m, base_m, base_g);
+
+    EXPECT_NEAR(v_g.value(), 0.5, k_epsilon);
+    static_assert(std::is_same_v<decltype(v_g), voltage_custom_pu_t<grid_base>>);
 }
 
 TEST(UnitsTest, PercentSystem)
