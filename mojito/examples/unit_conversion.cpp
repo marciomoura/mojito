@@ -60,9 +60,13 @@ int main()
     std::cout << "Voltage in Motor-side PU: " << v_pu_motor << "\n";
     std::cout << "Voltage in Grid-side PU:  " << v_pu_grid << "\n";
 
-    // 10. Convert between custom bases (going through SI)
-    voltage_custom_pu_t<grid_side> v_grid_from_motor = to_pu<grid_side>(to_si(v_pu_motor, motor_base_v), grid_base_v);
-    std::cout << "Voltage in Grid-side PU (converted from Motor-side): " << v_grid_from_motor << "\n";
+    // 10. Convert between custom bases (manually through SI)
+    voltage_custom_pu_t<grid_side> v_grid_from_motor_manual = to_pu<grid_side>(to_si(v_pu_motor, motor_base_v), grid_base_v);
+    std::cout << "Voltage in Grid-side PU (manual through SI): " << v_grid_from_motor_manual << "\n";
+
+    // 11. Convert between custom bases using to_different_pu
+    voltage_custom_pu_t<grid_side> v_grid_from_motor_direct = to_different_pu<grid_side>(v_pu_motor, motor_base_v, grid_base_v);
+    std::cout << "Voltage in Grid-side PU (using to_different_pu): " << v_grid_from_motor_direct << "\n";
 
     return 0;
 }
