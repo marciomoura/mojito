@@ -156,6 +156,15 @@ constexpr auto operator*(Scalar scalar, const abc<T>& coords) -> abc<decltype(sc
     return abc<result_type>{scalar * coords.a(), scalar * coords.b(), scalar * coords.c()};
 }
 
+#if MOJITO_HAS_IOSTREAM
+template <typename T>
+inline std::ostream& operator<<(std::ostream& os, const abc<T>& frame)
+{
+    os << "[" << frame.a() << ", " << frame.b() << ", " << frame.c() << "]";
+    return os;
+}
+#endif
+
 }  // namespace mojito
 
 #endif  // MOJITO_ABC_HPP
