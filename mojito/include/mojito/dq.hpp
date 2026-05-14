@@ -165,6 +165,15 @@ constexpr auto operator*(Scalar scalar, const dq<T>& coords) -> dq<decltype(scal
     return dq<result_type>{scalar * coords.d(), scalar * coords.q()};
 }
 
+#if MOJITO_HAS_IOSTREAM
+template <typename T>
+inline std::ostream& operator<<(std::ostream& os, const dq<T>& frame)
+{
+    os << "[" << frame.d() << ", " << frame.q() << "]";
+    return os;
+}
+#endif
+
 }  // namespace mojito
 
 #endif  // MOJITO_DQ_HPP

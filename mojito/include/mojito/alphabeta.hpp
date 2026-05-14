@@ -167,6 +167,15 @@ constexpr auto operator*(Scalar scalar, const alphabeta<T>& coords) -> alphabeta
     return alphabeta<result_type>{scalar * coords.alpha(), scalar * coords.beta()};
 }
 
+#if MOJITO_HAS_IOSTREAM
+template <typename T>
+inline std::ostream& operator<<(std::ostream& os, const alphabeta<T>& frame)
+{
+    os << "[" << frame.alpha() << ", " << frame.beta() << "]";
+    return os;
+}
+#endif
+
 }  // namespace mojito
 
 #endif  // MOJITO_ALPHABETA_HPP
