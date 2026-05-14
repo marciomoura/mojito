@@ -60,22 +60,22 @@ jobs:
                 -DMOJITO_ENABLE_CPPCHECK=ON 
           echo "=== CMake Configuration Complete ==="
 
-      - name: Build all test targets
+      - name: Build all targets
         run: |
           echo "=== Starting Build at $(date) ==="
-          time cmake --build build --parallel $(nproc) --target mojito_tests examples_frames example_operators example_rotation example_unit_conversion
+          time cmake --build build --parallel $(nproc)
           echo "=== Build Complete at $(date) ==="
 
-      - name: Upload test binaries
+      - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
-          name: test-binaries-${{ matrix.compiler }}
+          name: binaries-${{ matrix.compiler }}
           path: |
-            build/bin/mojito_tests
+            build/bin/
           retention-days: 3
           compression-level: 9
 
-  # Job 2: Unit Tests
+  # Job 2: Unit Tests & Examples
   test-unit:
     needs: build
     runs-on: ubuntu-latest
@@ -84,10 +84,10 @@ jobs:
         compiler: [clang, gcc]
       fail-fast: false
     steps:
-      - name: Download test binaries
+      - name: Download binaries
         uses: actions/download-artifact@v4
         with:
-          name: test-binaries-${{ matrix.compiler }}
+          name: binaries-${{ matrix.compiler }}
           path: build/bin/
 
       - name: Make binaries executable
