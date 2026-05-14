@@ -57,6 +57,14 @@ constexpr auto to_pu(const quantity<Dim, percent>& percent_quantity)
     return quantity<Dim, per_unit<Base>>(percent_quantity.value() / real_t{100.0});
 }
 
+// Per-Unit <-> Per-Unit
+template <typename NewBase, typename OldBase, typename Dim>
+constexpr auto to_different_pu(const quantity<Dim, per_unit<OldBase>>& pu_quantity,
+                               const quantity<Dim, si>& old_base_quantity, const quantity<Dim, si>& new_base_quantity)
+{
+    return to_pu<NewBase>(to_si(pu_quantity, old_base_quantity), new_base_quantity);
+}
+
 // Casting
 template <typename NewType, typename OldDim, typename OldBase>
 constexpr auto per_unit_cast(const quantity<OldDim, per_unit<OldBase>>& q)

@@ -75,6 +75,13 @@ constexpr auto to_pu(const dq<quantity<Dim, si>>& si_frame, const divisor<quanti
     return dq<result_quantity_t>(to_pu<Base>(si_frame.d(), divisor), to_pu<Base>(si_frame.q(), divisor));
 }
 
+template <typename NewBase, typename OldBase, typename Dim, template <typename> class Frame>
+constexpr auto to_different_pu(const Frame<quantity<Dim, per_unit<OldBase>>>& pu_frame,
+                               const quantity<Dim, si>& old_base_quantity, const quantity<Dim, si>& new_base_quantity)
+{
+    return to_pu<NewBase>(to_si(pu_frame, old_base_quantity), new_base_quantity);
+}
+
 }  // namespace mojito
 
 #endif  // MOJITO_PU_CONVERSION_HPP

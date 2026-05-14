@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
+
 #include <cmath>
+
 #include "mojito/mojito.hpp"
+
 
 namespace {
 
@@ -12,7 +15,7 @@ TEST(PuConversionTest, AbcConversion)
 {
     voltage_t base_v{real_t{100.0}};
     abc<voltage_pu_t> pu_v{voltage_pu_t{real_t{1.0}}, voltage_pu_t{real_t{-0.5}}, voltage_pu_t{real_t{-0.5}}};
-    
+
     auto si_v = to_si(pu_v, base_v);
     EXPECT_NEAR(si_v.a().value(), real_t{100.0}, k_epsilon);
     EXPECT_NEAR(si_v.b().value(), real_t{-50.0}, k_epsilon);
@@ -58,6 +61,37 @@ TEST(PuConversionTest, DivisorConversion)
     EXPECT_NEAR(pu_v.a().value(), real_t{1.0}, k_epsilon);
     EXPECT_NEAR(pu_v.b().value(), real_t{-0.5}, k_epsilon);
     EXPECT_NEAR(pu_v.c().value(), real_t{-0.5}, k_epsilon);
+}
+
+TEST(PuConversionTest, ToDifferentPu)
+{
+    struct machine_base {};
+    struct grid_base {};
+
+    voltage_t base_m(100.0);
+    voltage_t base_g(200.0);
+
+    // abc
+    abc<voltage_custom_pu_t<machine_base>> pu_abc{voltage_custom_pu_t<machine_base>{real_t{1.0}},
+        voltage_custom_pu_t<machine_base>{real_t{1.0}}, voltage_custom_pu_t<machine_base>{real_t{1.0}}};
+    auto grid_abc = to_different_pu<grid_base>(pu_abc, base_m, base_g);
+    EXPECT_NEAR(grid_abc.a().value(), 0.5, k_epsilon);
+    EXPECT_NEAR(grid_abc.b().value(), 0.5, k_epsilon);
+    EXPECT_NEAR(grid_abc.c().value(), 0.5, k_epsilon);
+
+    // alphabeta
+    alphabeta<voltage_custom_pu_t<machine_base>> pu_ab{
+        voltage_custom_pu_t<machine_base>{real_t{1.0}}, voltage_custom_pu_t<machine_base>{real_t{1.0}}};
+    auto grid_ab = to_different_pu<grid_base>(pu_ab, base_m, base_g);
+    EXPECT_NEAR(grid_ab.alpha().value(), 0.5, k_epsilon);
+    EXPECT_NEAR(grid_ab.beta().value(), 0.5, k_epsilon);
+
+    // dq
+    dq<voltage_custom_pu_t<machine_base>> pu_dq{
+        voltage_custom_pu_t<machine_base>{real_t{1.0}}, voltage_custom_pu_t<machine_base>{real_t{1.0}}};
+    auto grid_dq = to_different_pu<grid_base>(pu_dq, base_m, base_g);
+    EXPECT_NEAR(grid_dq.d().value(), 0.5, k_epsilon);
+    EXPECT_NEAR(grid_dq.q().value(), 0.5, k_epsilon);
 }
 
 }  // namespace
