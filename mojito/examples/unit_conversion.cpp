@@ -1,10 +1,16 @@
 #include <iostream>
 #include <mojito/mojito.hpp>
 
+// Define custom base tags
+struct motor_side {};
+struct grid_side {};
+
 int main()
 {
     using namespace mojito;
 
+    // --- Standard Unit Conversions ---
+    
     // 1. Define base quantities using SI type aliases
     voltage_t base_voltage(230.0f);
     std::cout << "Base Voltage: " << base_voltage << "\n";
@@ -35,7 +41,28 @@ int main()
 
     // Conversion works seamlessly with frames
     abc<voltage_pu_t> abc_pu = to_pu(abc_si, base_voltage);
-    std::cout << "abc PU frame:\n  " << abc_pu << "\n";
+    std::cout << "abc PU frame:\n  " << abc_pu << "\n\n";
+
+    // --- Custom Per-Unit Bases ---
+    std::cout << "--- Custom Per-Unit Bases ---\n";
+
+    // 8. Define custom base quantities
+    voltage_t motor_base_v(440.0f);
+    voltage_t grid_base_v(380.0f);
+    
+    std::cout << "Motor side base: " << motor_base_v << "\n";
+    std::cout << "Grid side base:  " << grid_base_v << "\n";
+
+    // 9. Convert SI to custom PU bases
+    voltage_custom_pu_t<motor_side> v_pu_motor = to_pu<motor_side>(v_si, motor_base_v);
+    voltage_custom_pu_t<grid_side> v_pu_grid = to_pu<grid_side>(v_si, grid_base_v);
+
+    std::cout << "Voltage in Motor-side PU: " << v_pu_motor << "\n";
+    std::cout << "Voltage in Grid-side PU:  " << v_pu_grid << "\n";
+
+    // 10. Convert between custom bases (going through SI)
+    voltage_custom_pu_t<grid_side> v_grid_from_motor = to_pu<grid_side>(to_si(v_pu_motor, motor_base_v), grid_base_v);
+    std::cout << "Voltage in Grid-side PU (converted from Motor-side): " << v_grid_from_motor << "\n";
 
     return 0;
 }
