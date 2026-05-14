@@ -6,8 +6,8 @@ if(TARGET mojito_module)
     target_link_libraries(example_module_usage PRIVATE mojito::module)
 endif()
 
-add_executable(abc_to_alpha_beta_to_dq abc_to_alpha_beta_to_dq.cpp)
-target_link_libraries(abc_to_alpha_beta_to_dq PRIVATE mojito::mojito)
+add_executable(examples_frames frames.cpp)
+target_link_libraries(examples_frames PRIVATE mojito::mojito)
 
 add_executable(example_operators operators.cpp)
 target_link_libraries(example_operators PRIVATE mojito::mojito)

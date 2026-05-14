@@ -63,7 +63,7 @@ jobs:
       - name: Build all test targets
         run: |
           echo "=== Starting Build at $(date) ==="
-          time cmake --build build --parallel $(nproc) --target mojito_tests
+          time cmake --build build --parallel $(nproc) --target mojito_tests examples_frames example_operators example_rotation example_unit_conversion
           echo "=== Build Complete at $(date) ==="
 
       - name: Upload test binaries
@@ -98,6 +98,14 @@ jobs:
           echo "=== Running Unit Tests with ${{ matrix.compiler }} ==="
           ./build/bin/mojito_tests --gtest_color=yes
 
+      - name: Run examples
+        run: |
+          echo "=== Running Examples with ${{ matrix.compiler }} ==="
+          ./build/bin/examples_frames
+          ./build/bin/example_operators
+          ./build/bin/example_rotation
+          ./build/bin/example_unit_conversion
+          
   # Job 3: Bazel Build & Test
   bazel:
     runs-on: ubuntu-latest
