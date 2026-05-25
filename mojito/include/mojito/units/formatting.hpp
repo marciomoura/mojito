@@ -47,6 +47,10 @@ std::ostream& operator<<(std::ostream& os, const quantity<Dim, UnitSystem>& q)
 {
     os << q.value();
     if constexpr (std::is_same_v<UnitSystem, si>) os << internal::get_unit_symbol<Dim>();
+    else if constexpr (std::is_same_v<UnitSystem, microseconds>) os << " us";
+    else if constexpr (std::is_same_v<UnitSystem, milliseconds>) os << " ms";
+    else if constexpr (std::is_same_v<UnitSystem, minutes>) os << " min";
+    else if constexpr (std::is_same_v<UnitSystem, hours>) os << " h";
     else if constexpr (is_per_unit_v<UnitSystem>) os << " pu";
     else if constexpr (std::is_same_v<UnitSystem, percent>) os << " %";
     return os;
