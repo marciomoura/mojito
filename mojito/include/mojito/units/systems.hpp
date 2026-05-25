@@ -6,7 +6,22 @@ namespace mojito {
 
 struct si {};
 
+// Time Unit Systems
+struct microseconds {};
+struct milliseconds {};
+using seconds = si;
+struct minutes {};
+struct hours {};
+
 struct default_base {};
+
+// Time Base Tags
+struct microseconds_base {};
+struct milliseconds_base {};
+struct seconds_base {};
+struct minutes_base {};
+struct hours_base {};
+
 
 template <typename Base = default_base>
 struct per_unit {

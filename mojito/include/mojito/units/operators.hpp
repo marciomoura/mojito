@@ -203,4 +203,45 @@ constexpr bool operator>=(const quantity<D, S>& q, Arithmetic val)
     return q.value() >= static_cast<real_t>(val);
 }
 
+// Prevent operations between mismatched dimensions or unit systems
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<D1, D2> || !std::is_same_v<S1, S2>>>
+void operator+(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<D1, D2> || !std::is_same_v<S1, S2>>>
+void operator-(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<S1, S2>>>
+void operator*(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<S1, S2>>>
+void operator/(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<D1, D2> || !std::is_same_v<S1, S2>>>
+void operator==(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<D1, D2> || !std::is_same_v<S1, S2>>>
+void operator!=(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<D1, D2> || !std::is_same_v<S1, S2>>>
+void operator<(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<D1, D2> || !std::is_same_v<S1, S2>>>
+void operator<=(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<D1, D2> || !std::is_same_v<S1, S2>>>
+void operator>(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
+template <typename D1, typename S1, typename D2, typename S2,
+          typename = std::enable_if_t<!std::is_same_v<D1, D2> || !std::is_same_v<S1, S2>>>
+void operator>=(const quantity<D1, S1>&, const quantity<D2, S2>&) = delete;
+
 }  // namespace mojito

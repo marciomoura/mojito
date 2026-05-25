@@ -280,5 +280,123 @@ TEST(UnitsTest, CoordinateFrameFromReal)
     static_assert(std::is_same_v<decltype(v_line.ab()), voltage_t>);
 }
 
+// --- Custom Time Unit Tests ---
+
+// 1. Verify Compile-time Safety for mismatched time units
+template <typename T1, typename T2, typename = void>
+struct is_addition_valid_t : std::false_type {};
+
+template <typename T1, typename T2>
+struct is_addition_valid_t<T1, T2, std::void_t<decltype(std::declval<T1>() + std::declval<T2>())>> : std::true_type {};
+
+static_assert(!is_addition_valid_t<seconds_t, minutes_t>::value, "Cannot add seconds and minutes directly");
+static_assert(!is_addition_valid_t<minutes_t, hours_t>::value, "Cannot add minutes and hours directly");
+static_assert(!std::is_assignable_v<seconds_t&, minutes_t>, "Cannot assign minutes to seconds");
+
+// 2. Verify physical integration (voltage * time = flux)
+static_assert(std::is_same_v<decltype(std::declval<voltage_t>() * std::declval<seconds_t>()), flux_t>, "voltage_t * seconds_t must yield flux_t");
+
+template <typename T1, typename T2, typename = void>
+struct is_multiplication_valid_t : std::false_type {};
+
+template <typename T1, typename T2>
+struct is_multiplication_valid_t<T1, T2, std::void_t<decltype(std::declval<T1>() * std::declval<T2>())>> : std::true_type {};
+
+static_assert(!is_multiplication_valid_t<voltage_t, minutes_t>::value, "Cannot multiply voltage_t and minutes_t directly");
+
+TEST(UnitsTest, CustomTimeTypesAndConversions)
+{
+    // Basic creations
+    microseconds_t us(1e6);
+    milliseconds_t ms(1000.0);
+    seconds_t s(1.0);
+    minutes_t m(1.0 / 60.0);
+    hours_t h(1.0 / 3600.0);
+
+    // Casts to seconds
+    EXPECT_NEAR(time_cast<seconds_t>(us).value(), 1.0, k_epsilon);
+    EXPECT_NEAR(time_cast<seconds_t>(ms).value(), 1.0, k_epsilon);
+    EXPECT_NEAR(time_cast<seconds_t>(s).value(), 1.0, k_epsilon);
+    EXPECT_NEAR(time_cast<seconds_t>(m).value(), 1.0, k_epsilon);
+    EXPECT_NEAR(time_cast<seconds_t>(h).value(), 1.0, k_epsilon);
+
+    // Casts to other types using system tags or quantity types
+    EXPECT_NEAR(time_cast<minutes>(s).value(), 1.0 / 60.0, k_epsilon);
+    EXPECT_NEAR(time_cast<hours>(s).value(), 1.0 / 3600.0, k_epsilon);
+    EXPECT_NEAR(time_cast<milliseconds_t>(s).value(), 1000.0, k_epsilon);
+    EXPECT_NEAR(time_cast<microseconds_t>(s).value(), 1e6, k_epsilon);
+
+    // Helper functions
+    EXPECT_NEAR(to_us(s).value(), 1e6, k_epsilon);
+    EXPECT_NEAR(to_ms(s).value(), 1000.0, k_epsilon);
+    EXPECT_NEAR(to_seconds(ms).value(), 1.0, k_epsilon);
+    EXPECT_NEAR(to_minutes(s).value(), 1.0 / 60.0, k_epsilon);
+    EXPECT_NEAR(to_hours(s).value(), 1.0 / 3600.0, k_epsilon);
+}
+
+TEST(UnitsTest, CustomTimeFormatting)
+{
+#if MOJITO_HAS_IOSTREAM
+    std::stringstream ss_us, ss_ms, ss_s, ss_m, ss_h;
+    ss_us << microseconds_t(5.0);
+    ss_ms << milliseconds_t(5.0);
+    ss_s << seconds_t(5.0);
+    ss_m << minutes_t(5.0);
+    ss_h << hours_t(5.0);
+
+    EXPECT_EQ(ss_us.str(), "5 us");
+    EXPECT_EQ(ss_ms.str(), "5 ms");
+    EXPECT_EQ(ss_s.str(), "5 s");
+    EXPECT_EQ(ss_m.str(), "5 min");
+    EXPECT_EQ(ss_h.str(), "5 h");
+#endif
+}
+
+TEST(UnitsTest, CustomTimePerUnitAndPercent)
+{
+    // Test base conversions for each type
+    // Microseconds
+    microseconds_t us_base(100.0);
+    microseconds_t us_val(150.0);
+    auto us_pu = to_pu<microseconds_base>(us_val, us_base);
+    EXPECT_NEAR(us_pu.value(), 1.5, k_epsilon);
+    EXPECT_NEAR(to_si(us_pu, us_base).value(), 150.0, k_epsilon);
+
+    // Milliseconds
+    milliseconds_t ms_base(10.0);
+    milliseconds_t ms_val(25.0);
+    auto ms_pu = to_pu<milliseconds_base>(ms_val, ms_base);
+    EXPECT_NEAR(ms_pu.value(), 2.5, k_epsilon);
+    EXPECT_NEAR(to_si(ms_pu, ms_base).value(), 25.0, k_epsilon);
+
+    // Minutes
+    minutes_t m_base(2.0);
+    minutes_t m_val(5.0);
+    auto m_pu = to_pu<minutes_base>(m_val, m_base);
+    EXPECT_NEAR(m_pu.value(), 2.5, k_epsilon);
+    EXPECT_NEAR(to_si(m_pu, m_base).value(), 5.0, k_epsilon);
+
+    // Hours
+    hours_t h_base(1.0);
+    hours_t h_val(0.5);
+    auto h_pu = to_pu<hours_base>(h_val, h_base);
+    EXPECT_NEAR(h_pu.value(), 0.5, k_epsilon);
+    EXPECT_NEAR(to_si(h_pu, h_base).value(), 0.5, k_epsilon);
+
+    // Percent system with minutes
+    auto m_pct = to_percent(m_val, m_base);
+    EXPECT_NEAR(m_pct.value(), 250.0, k_epsilon);
+    EXPECT_NEAR(to_si(m_pct, m_base).value(), 5.0, k_epsilon);
+}
+
+TEST(UnitsTest, VoltageIntegrationToFlux)
+{
+    voltage_t v(10.0);
+    seconds_t t(2.0);
+    auto flux = v * t;
+    static_assert(std::is_same_v<decltype(flux), flux_t>, "voltage_t * seconds_t must yield flux_t");
+    EXPECT_NEAR(flux.value(), 20.0, k_epsilon);
+}
+
 
 }  // namespace
